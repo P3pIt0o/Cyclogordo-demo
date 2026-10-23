@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Réserver un rendez-vous atelier · CycloGordo</title>
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Hanken+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<header id="hdr" class="gut solid">
+  <div class="wrap nav">
+    <a class="logo" href="index.html"><img src="img/logo.png" alt="Cyclo Gordo Genève, accueil" width="478" height="134"></a>
+    <ul><li><a href="index.html">Accueil</a></li><li><a href="reparation.html">Réparation</a></li><li><a href="velos.html">Nos vélos</a></li><li><a href="pieces.html">Nos pièces</a></li></ul>
+    <div class="right">
+      <a class="phone" href="tel:+41223370907">+41 22 337 09 07</a>
+      <a class="btn" href="rdv.html">Prendre RDV en ligne</a>
+      <button class="menu-btn" type="button" id="menuBtn" aria-expanded="false" aria-controls="drawer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>Menu</button>
+    </div>
+  </div>
+</header>
+<div class="drawer" id="drawer" hidden>
+  <div class="top"><img src="img/logo.png" alt="Cyclo Gordo" width="478" height="134"><button class="close" type="button" id="menuClose" aria-label="Fermer le menu"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+  <a class="l" href="index.html">Accueil</a><a class="l" href="reparation.html">Réparation</a><a class="l" href="velos.html">Nos vélos</a><a class="l" href="pieces.html">Nos pièces</a><a class="l" href="a-propos.html">À propos</a><a class="l" href="blog.html">Blog</a><a class="l" href="contact.html">Contact</a>
+  <a class="btn" href="rdv.html">Prendre RDV en ligne</a>
+  <a class="btn ghost" href="tel:+41223370907">Appeler le +41 22 337 09 07</a>
+</div>
+<main id="top">
+<section class="page-hero gut"><div class="veil"></div><div class="wrap"><p class="crumb"><a href="index.html">Accueil</a> / Prendre RDV</p><p class="eyebrow">Atelier · Réservation</p><h1 class="disp" style="margin-top:14px">Réservez votre réparation en ligne.</h1><p class="lead">Réservez un créneau garanti pour la réparation ou l'entretien de votre vélo : simple, rapide et sans attente.</p></div></section>
+<section class="block gut"><div class="wrap">
+  <div class="split"><h2 class="disp">Comment ça fonctionne&nbsp;?</h2></div>
+  <div class="steps"><div class="step"><span class="n">1</span><h3>Réservation simple et rapide</h3><p>Choisissez un créneau en quelques clics. Vous recevez une confirmation par e-mail, et nous vous contactons si besoin avant la réparation.</p></div>
+  <div class="step"><span class="n">2</span><h3>Déposez votre vélo à l'ouverture</h3><p>Amenez votre vélo à l'ouverture du magasin le jour du rendez-vous. La réparation est faite dans la journée, en général avant 17 h, sauf exception.</p></div></div>
+  <ul class="notes" aria-label="Informations importantes">
+    <li>Le vélo doit être dans un état de propreté raisonnable. Un supplément de CHF 35.- s'applique s'il est particulièrement sale.</li>
+    <li>Indiquez la marque et le modèle. Si vous ne les connaissez pas, donnez un signe distinctif (ex. vélo de ville gris avec panier avant).</li>
+    <li>Pour une réparation, décrivez le problème avec vos mots.</li>
+    <li>Vélo électrique : pensez à apporter les clés de la batterie.</li>
+  </ul>
+</div></section>
+<section class="block gut" style="padding-top:0" id="form"><div class="wrap">
+  <div class="split"><h2 class="disp">Prendre un rendez-vous.</h2><p>Le lundi, l'atelier ouvre à 13 h. Fermé le dimanche.</p></div>
+  <div class="two-col">
+    <form class="form-card" id="rdvForm" novalidate>
+      <label for="r-date">Date souhaitée<input id="r-date" type="date" required></label>
+      <div><span style="font-size:14px;color:#c9ced6;font-weight:500">Places restantes</span><div class="slots" id="slots" role="status">Choisissez une date</div></div>
+      <label class="full" for="f-svc">Service<select id="f-svc"><option>Service réglage</option><option>Service transmission</option><option>Service + Nettoyage</option><option>Crevaison / pneu</option><option>Mise en boîte</option><option>Premier service vélo neuf</option><option>Essai d&#x27;un vélo d&#x27;occasion</option><option>Montage / vélo d&#x27;entreprise</option><option>Autre demande</option></select></label>
+      <label for="r-bike">Marque et modèle du vélo<input id="r-bike" placeholder="ex. Trek FX 2, ou vélo de ville gris avec panier"></label>
+      <label class="check" for="r-vae" style="align-self:end;min-height:48px"><input id="r-vae" type="checkbox">Vélo électrique</label>
+      <label class="full" for="r-desc">Décrivez le problème<textarea id="r-desc" placeholder="ex. La chaîne saute sur les petits pignons."></textarea></label>
+      <label for="f-name">Nom<input id="f-name" autocomplete="name" required></label>
+      <label for="r-tel">Téléphone<input id="r-tel" type="tel" autocomplete="tel"></label>
+      <label class="full" for="r-mail">E-mail<input id="r-mail" type="email" autocomplete="email" required></label>
+      <label class="check full" for="r-call"><input id="r-call" type="checkbox">Demander à être rappelé</label>
+      <button class="btn full" type="submit" style="justify-content:center">Envoyer</button>
+      <p class="ok" id="ok" role="status" hidden></p>
+    </form>
+    <aside class="card-info"><div><h3>Horaires</h3><table><tr><td>Lundi</td><td>13:00 – 18:30</td></tr><tr><td>Mardi – vendredi</td><td>9:30 – 13:30 · 14:30 – 18:30</td></tr><tr><td>Samedi</td><td>9:00 – 12:30</td></tr><tr><td>Dimanche</td><td>Fermé</td></tr></table></div><div><h3>Une question&nbsp;?</h3><p><a href="tel:+41223370907">+41 22 337 09 07</a><br><a href="mailto:info@cyclogordo.ch">info@cyclogordo.ch</a></p></div></aside>
+  </div>
+</div></section>
+</main>
+<footer class="site-foot gut">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a class="logo-w" href="index.html"><img src="img/logo.png" alt="Cyclo Gordo Genève" width="478" height="134"></a>
+        <p style="margin:0">CycloGordo<br>5 rue Hoffmann<br>1202 Genève, Suisse</p>
+        <div class="socials"><a href="https://www.instagram.com/cyclogordo/" aria-label="Instagram de CycloGordo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a><a href="https://www.facebook.com/gordobmx" aria-label="Facebook de CycloGordo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M14 8h3V4h-3a4 4 0 0 0-4 4v3H7v4h3v6h4v-6h3l1-4h-4V8z"/></svg></a></div>
+      </div>
+      <div><h3>Horaires</h3><table><tr><td>Lundi</td><td>13:00 – 18:30</td></tr><tr><td>Mardi – vendredi</td><td>9:30 – 13:30 · 14:30 – 18:30</td></tr><tr><td>Samedi</td><td>9:00 – 12:30</td></tr><tr><td>Dimanche</td><td>Fermé</td></tr></table></div>
+      <div><h3>Contact</h3><ul><li><a href="tel:+41223370907">+41 22 337 09 07</a></li><li><a href="mailto:info@cyclogordo.ch">info@cyclogordo.ch</a></li><li><a href="https://www.google.com/maps/search/?api=1&amp;query=5+rue+Hoffmann+1202+Gen%C3%A8ve">Itinéraire</a></li></ul></div>
+      <div><h3>Le site</h3><ul><li><a href="index.html">Accueil</a></li><li><a href="reparation.html">Réparation</a></li><li><a href="velos.html">Nos vélos</a></li><li><a href="pieces.html">Nos pièces</a></li><li><a href="a-propos.html">À propos</a></li><li><a href="blog.html">Blog</a></li><li><a href="contact.html">Contact</a></li><li><a href="rdv.html">Prendre RDV</a></li></ul></div>
+    </div>
+    <div class="foot-bottom"><span>© 2026 CycloGordo · Le vélo pour tous, à Genève</span><span>Politique de confidentialité · Conditions générales de vente</span><span>Maquette de démonstration · <a href="admin.html" style="color:inherit">Espace magasin</a></span></div>
+  </div>
+</footer>
+<script src="assets/site.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>CycloGordo Espace magasin</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..900&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout : ordinateur = menu latéral + zone de travail ; téléphone = barre d'onglets en bas (pouce), barre d'actions collante. Accents aux couleurs du logo. */
+:root{
+  --bg:#f3f4f1;--panel:#ffffff;--ink:#16191f;--mute:#5d6470;--line:#e1e3de;--side:#14171c;
+  --green:#178a48;--green-bg:#e5f4ea;--yellow:#ffd21f;--yellow-bg:#fff5cc;--yellow-ink:#7a5d00;
+  --navy:#2b3f8f;--navy-bg:#e8ecf8;--on-navy:#ffffff;--red:#b3261e;--red-bg:#fbe9e7;
+  --stripe:linear-gradient(180deg,#2b3f8f 0 33.3%,#ffd21f 33.3% 66.6%,#1fae5b 66.6%);
+  --display:"Archivo","Arial Narrow",Arial,sans-serif;
+  --body:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  --tabh:64px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f1115;--panel:#181b21;--ink:#eef0f3;--mute:#a1a8b3;--line:#2a2f37;--side:#0a0c0f;
+  --green:#4cc782;--green-bg:#15301f;--yellow-bg:#3a3110;--yellow-ink:#ffd21f;--navy:#9fb1f0;--navy-bg:#1c2440;--on-navy:#0f1115;--red:#ff8a80;--red-bg:#3a1a18;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1115;--panel:#181b21;--ink:#eef0f3;--mute:#a1a8b3;--line:#2a2f37;--side:#0a0c0f;
+  --green:#4cc782;--green-bg:#15301f;--yellow-bg:#3a3110;--yellow-ink:#ffd21f;--navy:#9fb1f0;--navy-bg:#1c2440;--on-navy:#0f1115;--red:#ff8a80;--red-bg:#3a1a18;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--navy);outline-offset:2px;border-radius:6px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+svg{flex:none}
+
+/* ---------- Coque ---------- */
+.app{display:flex;min-height:100vh}
+.side{flex:0 0 248px;background:var(--side);color:#e9ecf1;padding-block:20px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:16px;display:flex;flex-direction:column;gap:22px;position:sticky;top:0;height:100vh}
+.side::after{content:"";position:absolute;top:0;right:0;bottom:0;width:5px;background:var(--stripe)}
+.brand{background:#fff;border-radius:10px;padding:8px 10px;line-height:0}
+.brand img{width:100%;height:auto}
+.side .new{width:100%}
+.side nav{display:flex;flex-direction:column;gap:4px}
+.navbtn{display:flex;align-items:center;gap:12px;min-height:44px;padding:0 12px;border:0;border-radius:10px;background:transparent;color:#c3c9d3;cursor:pointer;text-align:left;font-weight:500;width:100%}
+.navbtn svg{width:20px;height:20px}
+.navbtn:hover{background:rgba(255,255,255,.06);color:#fff}
+.navbtn[aria-current="page"]{background:#fff;color:#14171c;font-weight:600}
+.badge{margin-left:auto;font-family:var(--mono);font-size:12px;font-weight:500;background:var(--yellow);color:#14171c;border-radius:999px;padding:0 7px;min-width:20px;text-align:center;line-height:20px}
+.side .foot{margin-top:auto;display:flex;flex-direction:column;gap:10px;font-size:13px;color:#9aa3b2}
+.side .foot a{color:#e9ecf1;text-decoration:none;display:inline-flex;gap:8px;align-items:center}
+.side .foot a:hover{text-decoration:underline}
+.main{flex:1;min-width:0;padding-block:24px 120px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.inner{max-width:1120px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+.appbar,.tabbar,.fab{display:none}
+
+@media (max-width:820px){
+  .side{display:none}
+  .main{padding-top:0;padding-bottom:calc(var(--tabh) + 96px + env(safe-area-inset-bottom,0px))}
+  .appbar{display:flex;align-items:center;gap:10px;position:sticky;top:env(safe-area-inset-top,0px);z-index:15;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(10px);margin-inline:calc(-1 * max(16px,env(safe-area-inset-left,0px))) calc(-1 * max(16px,env(safe-area-inset-right,0px)));padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));min-height:60px;border-bottom:1px solid var(--line)}
+  .appbar .logo{height:30px;width:auto;background:#fff;border-radius:7px;padding:4px 6px}
+  .appbar .ttl{font-family:var(--display);font-stretch:110%;font-weight:800;font-size:18px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .appbar .iconbtn{width:44px;height:44px;border-radius:12px;border:0;background:transparent;display:grid;place-items:center;cursor:pointer;margin-left:-10px}
+  .appbar .iconbtn svg{width:22px;height:22px}
+  body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:16;background:var(--bg)}
+  .tabbar{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));position:fixed;left:0;right:0;bottom:0;z-index:15;background:var(--panel);border-top:1px solid var(--line);padding:0 max(4px,env(safe-area-inset-right,0px)) env(safe-area-inset-bottom,0px) max(4px,env(safe-area-inset-left,0px))}
+  .tabbar::before{content:"";position:absolute;left:0;right:0;top:-4px;height:3px;background:linear-gradient(90deg,#2b3f8f 0 33.3%,#ffd21f 33.3% 66.6%,#1fae5b 66.6%)}
+  .tab{height:var(--tabh);border:0;background:transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:11.5px;font-weight:600;color:var(--mute);cursor:pointer;position:relative}
+  .tab svg{width:23px;height:23px}
+  .tab[aria-current="page"]{color:var(--ink)}
+  .tab[aria-current="page"] .ico{background:var(--yellow-bg);color:var(--ink)}
+  .tab .ico{width:52px;height:30px;border-radius:999px;display:grid;place-items:center;transition:background .2s}
+  .tab .badge{position:absolute;top:6px;left:calc(50% + 8px);margin:0;font-size:11px;line-height:18px;min-width:18px;padding:0 5px}
+  .fab{display:inline-flex;position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(var(--tabh) + 16px + env(safe-area-inset-bottom,0px));z-index:14;min-height:56px;padding:0 20px 0 16px;border-radius:18px;box-shadow:0 8px 24px rgba(20,23,28,.28)}
+  .fab[hidden]{display:none}
+  .desk{display:none!important}
+}
+
+/* ---------- Éléments ---------- */
+.banner{display:flex;align-items:center;gap:10px;background:var(--yellow-bg);border-radius:12px;padding:8px 8px 8px 14px;font-size:14px}
+.banner span{flex:1}
+.banner button{width:36px;height:36px;border-radius:8px;border:0;background:transparent;cursor:pointer;display:grid;place-items:center;flex:none}
+.head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px}
+h1{font-family:var(--display);font-stretch:112%;font-weight:800;font-size:clamp(24px,3.2vw,34px);line-height:1.05;margin:0;letter-spacing:-.01em;text-wrap:balance}
+h2{font-family:var(--display);font-stretch:108%;font-weight:700;font-size:18px;margin:0}
+.sub{color:var(--mute);margin:4px 0 0;font-size:14px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 16px;border-radius:12px;border:1px solid var(--line);background:var(--panel);cursor:pointer;font-weight:600;text-decoration:none;white-space:nowrap}
+.btn:hover{border-color:var(--mute)}
+.btn svg{width:18px;height:18px}
+.btn.primary{background:var(--navy);border-color:var(--navy);color:var(--on-navy)}
+.btn.primary:hover{filter:brightness(1.08)}
+.btn.yellow{background:var(--yellow);border-color:var(--yellow);color:#14171c}
+.btn.ghost{background:transparent;border-color:transparent}
+.btn.ghost:hover{background:var(--line)}
+.btn.danger{color:var(--red)}
+.btn.sm{min-height:38px;padding:0 12px;font-size:14px;border-radius:10px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;min-width:0}
+.panel>.head{margin-bottom:8px}
+
+/* Accueil */
+.todo{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:900px){.todo{grid-template-columns:1fr}}
+.tile{display:flex;align-items:center;gap:14px;text-align:left;cursor:pointer;width:100%;border:1px solid var(--line);background:var(--panel);border-radius:16px;padding:16px;min-height:84px}
+.tile:hover{border-color:var(--mute)}
+.tile .n{font-family:var(--display);font-stretch:112%;font-weight:800;font-size:32px;line-height:1;min-width:44px;font-variant-numeric:tabular-nums}
+.tile .t{font-weight:600}
+.tile .m{font-size:13px;color:var(--mute)}
+.tile .go{margin-left:auto;color:var(--mute)}
+.tile.hot{border-color:var(--yellow);background:var(--yellow-bg)}
+.list{display:flex;flex-direction:column}
+.item{display:flex;align-items:center;gap:14px;padding:12px 0;border-top:1px solid var(--line);min-width:0;width:100%;background:transparent;border-left:0;border-right:0;border-bottom:0;text-align:left;cursor:pointer}
+.item:first-child{border-top:0}
+.item .grow{flex:1;min-width:0}
+.item .t{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.item .m{font-size:13px;color:var(--mute)}
+.item .chev{color:var(--mute)}
+.thumb{width:76px;height:60px;border-radius:10px;object-fit:cover;flex:none;display:block;background:repeating-linear-gradient(135deg,var(--line) 0 6px,transparent 6px 12px)}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;white-space:nowrap}
+.pill::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.s-online{background:var(--green-bg);color:var(--green)}
+.s-res{background:var(--yellow-bg);color:var(--yellow-ink)}
+.s-sold{background:var(--line);color:var(--mute)}
+.s-wait{background:var(--navy-bg);color:var(--navy)}
+.price{font-family:var(--mono);font-variant-numeric:tabular-nums;font-weight:500;white-space:nowrap}
+.meter{height:6px;border-radius:99px;background:var(--line);overflow:hidden;width:90px}
+.meter i{display:block;height:100%;background:var(--green);border-radius:99px}
+
+/* Annonces */
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.search{flex:1 1 240px;position:relative}
+.search input{width:100%;min-height:44px;border-radius:12px;border:1px solid var(--line);background:var(--panel);padding:0 14px 0 42px}
+.search svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:var(--mute)}
+.seg{display:flex;gap:4px;background:var(--line);padding:4px;border-radius:12px;overflow-x:auto;max-width:100%}
+.seg button{min-height:36px;padding:0 14px;border:0;border-radius:9px;background:transparent;cursor:pointer;font-weight:600;font-size:14px;color:var(--mute);white-space:nowrap}
+.seg button[aria-pressed="true"]{background:var(--panel);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.ad{display:flex;flex-direction:column;border:1px solid var(--line);background:var(--panel);border-radius:16px;overflow:hidden;cursor:pointer;text-align:left;padding:0;width:100%}
+.ad:hover{border-color:var(--mute)}
+.ad .ph{aspect-ratio:4/3;width:100%;object-fit:cover;object-position:50% 75%;display:block;background:repeating-linear-gradient(135deg,var(--line) 0 8px,transparent 8px 16px)}
+.ad .phe{aspect-ratio:4/3;display:grid;place-items:center;color:var(--mute);font-size:13px;font-weight:600;background:repeating-linear-gradient(135deg,var(--line) 0 8px,transparent 8px 16px)}
+.ad .bd{padding:14px;display:flex;flex-direction:column;gap:8px}
+.ad .r{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.ad .name{font-weight:700;font-size:16px}
+.ad .warn{font-size:13px;color:var(--yellow-ink);display:flex;gap:6px;align-items:center}
+.ad.sold{opacity:.6}
+.empty{padding:32px;text-align:center;color:var(--mute)}
+
+/* Éditeur */
+.editor{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:1000px){.editor{grid-template-columns:1fr}}
+.col{display:flex;flex-direction:column;gap:16px;min-width:0}
+.stage{position:relative;border-radius:12px;overflow:hidden;background:#111;aspect-ratio:1/1;max-width:100%;cursor:crosshair;touch-action:manipulation}
+.stage img{width:100%;height:100%;object-fit:cover;display:block;user-select:none;-webkit-user-drag:none;pointer-events:none}
+.stage .ph-empty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:#c3c9d3;text-align:center;padding:24px;font-size:14px;cursor:pointer}
+.stage .ph-empty svg{width:36px;height:36px}
+.pt{position:absolute;transform:translate(-15px,-15px);display:flex;align-items:center;gap:6px;pointer-events:none}
+.pt b{width:30px;height:30px;border-radius:50%;background:var(--yellow);border:2px solid #fff;box-shadow:0 2px 10px rgba(0,0,0,.45);display:grid;place-items:center;font:700 12px var(--mono);color:#14171c}
+.pt span{background:rgba(20,23,28,.85);color:#fff;font-size:12px;font-weight:600;padding:3px 8px;border-radius:6px;white-space:nowrap}
+.pt.cur b{background:var(--green);color:#fff}
+.pt.left{flex-direction:row-reverse;transform:translate(calc(-100% + 15px),-15px)}
+.stage .cue{position:absolute;left:10px;right:10px;bottom:10px;background:rgba(20,23,28,.85);color:#fff;font-size:13px;font-weight:600;padding:8px 12px;border-radius:10px;pointer-events:none;text-align:center}
+.zonebar{display:flex;gap:6px;overflow-x:auto;padding-block:12px 2px;scrollbar-width:none}
+.zonebar::-webkit-scrollbar{display:none}
+.zonebar button{min-height:40px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:var(--panel);cursor:pointer;font-size:14px;font-weight:600;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;flex:none}
+.zonebar button[aria-pressed="true"]{background:var(--ink);color:var(--panel);border-color:var(--ink)}
+.zonebar button .dot{width:8px;height:8px;border-radius:50%;background:var(--yellow);border:1px solid rgba(0,0,0,.2)}
+.placed{display:flex;flex-direction:column;margin-top:8px}
+.placed li{list-style:none;display:flex;align-items:center;gap:10px;padding:6px 0;border-top:1px solid var(--line);font-size:14px}
+.placed li:first-child{border-top:0}
+.placed .no{width:24px;height:24px;border-radius:50%;background:var(--yellow);color:#14171c;font:700 11px var(--mono);display:grid;place-items:center;flex:none}
+.placed .grow{flex:1;min-width:0}
+.placed .m{font-size:12px;color:var(--mute)}
+.placed ul{margin:0;padding:0}
+.iconbtn{width:40px;height:40px;border-radius:10px;border:0;background:transparent;display:grid;place-items:center;cursor:pointer;color:var(--mute)}
+.iconbtn:hover{background:var(--line);color:var(--ink)}
+.iconbtn svg{width:18px;height:18px}
+.filebtn{position:relative;overflow:hidden}
+.filebtn input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.form label,.fld{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600;color:var(--mute);min-width:0}
+.form input,.form select,.form textarea{min-height:48px;border:1px solid var(--line);border-radius:12px;background:var(--bg);padding:10px 12px;font-weight:400;font-size:16px;color:var(--ink);width:100%}
+.form textarea{min-height:100px;resize:vertical}
+.form .req::after{content:" *";color:var(--red)}
+.full{grid-column:1/-1}
+@media (max-width:520px){.form{grid-template-columns:1fr}}
+.statusseg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;background:var(--line);padding:4px;border-radius:12px}
+.statusseg button{min-height:40px;border:0;border-radius:9px;background:transparent;cursor:pointer;font-weight:600;font-size:14px;color:var(--mute)}
+.statusseg button[aria-pressed="true"]{background:var(--panel);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.check{display:flex;flex-direction:column;gap:6px;font-size:14px;margin:8px 0 0;padding:0;list-style:none}
+.check li{display:flex;gap:8px;align-items:center}
+.check li svg{width:18px;height:18px}
+.check .ok{color:var(--green)}
+.check .ko{color:var(--mute)}
+.ch{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-top:1px solid var(--line);cursor:pointer}
+.ch:first-of-type{border-top:0}
+.switch{appearance:none;-webkit-appearance:none;width:44px;height:26px;border-radius:99px;background:var(--line);position:relative;flex:none;cursor:pointer;margin:0;transition:background .2s}
+.switch::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .2s}
+.switch:checked{background:var(--navy)}
+.switch:checked::after{transform:translateX(18px)}
+.switch:disabled{opacity:.7;cursor:default}
+.ch .grow{flex:1;min-width:0}
+.ch .t{font-weight:600}
+.ch .m{font-size:13px;color:var(--mute)}
+.tag{font-size:11px;font-weight:700;letter-spacing:.03em;padding:2px 8px;border-radius:6px;white-space:nowrap;align-self:flex-start}
+.tag.auto{background:var(--green-bg);color:var(--green)}
+.tag.assist{background:var(--navy-bg);color:var(--navy)}
+.tag.cond{background:var(--yellow-bg);color:var(--yellow-ink)}
+.copybox{width:100%;min-height:150px;border:1px solid var(--line);border-radius:12px;background:var(--bg);padding:10px 12px;font:13px/1.5 var(--mono);color:var(--ink);resize:vertical}
+.savebar{position:sticky;bottom:0;z-index:12;display:flex;gap:10px;align-items:center;justify-content:flex-end;flex-wrap:wrap;background:color-mix(in srgb,var(--panel) 94%,transparent);backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:16px;padding:10px 12px;box-shadow:0 -6px 24px rgba(20,23,28,.08)}
+.savebar .state{margin-right:auto;font-size:13px;color:var(--mute)}
+@media (max-width:820px){
+  .savebar{position:fixed;left:0;right:0;bottom:calc(var(--tabh) + env(safe-area-inset-bottom,0px));border-radius:0;border-inline:0;padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px))}
+  .savebar .state{display:none}
+  .savebar .btn{flex:1}
+}
+
+/* Atelier */
+.day{display:flex;flex-direction:column;gap:8px}
+.day h3{margin:8px 0 0;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--mute);font-weight:600}
+.slot{display:grid;grid-template-columns:62px minmax(0,1fr) auto;gap:12px;align-items:center;padding:14px;border:1px solid var(--line);border-radius:14px;background:var(--panel)}
+.slot .h{font-family:var(--mono);font-size:15px;font-variant-numeric:tabular-nums;font-weight:500}
+.slot .t{font-weight:600}
+.slot .m{font-size:13px;color:var(--mute)}
+.slot .acts{display:flex;gap:8px}
+@media (max-width:600px){.slot{grid-template-columns:52px minmax(0,1fr)}.slot .acts{grid-column:1/-1}.slot .acts .btn{flex:1}}
+
+/* Site */
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:980px){.two{grid-template-columns:1fr}}
+.hrow{display:grid;grid-template-columns:130px minmax(0,1fr) auto;gap:10px;align-items:center;padding:8px 0;border-top:1px solid var(--line)}
+.hrow:first-child{border-top:0}
+.hrow span{font-weight:600;font-size:14px}
+.hrow input[type=text]{min-height:44px;border:1px solid var(--line);border-radius:10px;background:var(--bg);padding:0 12px;width:100%;font-size:15px}
+.hrow input[type=text]:disabled{opacity:.45}
+.hrow label{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--mute);font-weight:600}
+@media (max-width:520px){.hrow{grid-template-columns:minmax(0,1fr) auto}.hrow input[type=text]{grid-column:1/-1;grid-row:2}}
+.srow{display:grid;grid-template-columns:minmax(0,1fr) 150px;gap:10px;padding:8px 0;border-top:1px solid var(--line)}
+.srow:first-child{border-top:0}
+.srow input{min-height:44px;border:1px solid var(--line);border-radius:10px;background:var(--bg);padding:0 12px;width:100%;font-size:15px}
+@media (max-width:520px){.srow{grid-template-columns:1fr}}
+
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--panel);padding:12px 18px;border-radius:12px;font-weight:600;box-shadow:0 10px 30px rgba(0,0,0,.25);width:max-content;max-width:calc(100% - 32px);z-index:30;font-size:14px}
+@media (max-width:820px){.toast{bottom:calc(var(--tabh) + 84px + env(safe-area-inset-bottom,0px))}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="app">
+  <aside class="side" aria-label="Menu principal">
+    <div class="brand"><img src="img/logo.png" alt="Cyclo Gordo Genève" width="478" height="134"></div>
+    <button class="btn yellow new" type="button" data-act="new"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Nouvelle annonce</button>
+    <nav id="sidenav"></nav>
+    <div class="foot">
+      <a href="index.html" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>Voir le site</a>
+      <span>Atelier CycloGordo · 5 rue Hoffmann</span>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="appbar" id="appbar"></div>
+    <div class="inner" id="view"></div>
+  </main>
+</div>
+
+<nav class="tabbar" id="tabbar" aria-label="Navigation"></nav>
+<button class="btn yellow fab" type="button" id="fab" data-act="new"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Annonce</button>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+(function(){
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const chf=n=>'CHF '+Number(n||0).toLocaleString('fr-CH').replace(/[\s  ’]/g,"'");
+const I={
+  home:'<path d="M3 11 12 4l9 7v8a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',
+  bike:'<circle cx="6" cy="16" r="4"/><circle cx="18" cy="16" r="4"/><path d="M6 16l4-8h5l3 8M10 8 8.5 5H7m8 3-1-3h2.5"/>',
+  cal:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+  site:'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 14h8"/>',
+  chev:'<path d="m9 6 6 6-6 6"/>',back:'<path d="m15 6-6 6 6 6"/>',x:'<path d="M6 6l12 12M18 6 6 18"/>',
+  cam:'<path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/>',
+  ok:'<circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/>',ko:'<circle cx="12" cy="12" r="9"/>',
+  search:'<circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>',warn:'<path d="M12 4 2 20h20zM12 10v4M12 17v.5"/>',
+  img:'<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 17-5-5-8 7"/>'
+};
+const ico=(n,w)=>'<svg viewBox="0 0 24 24" '+(w?'width="'+w+'" height="'+w+'" ':'')+'fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+I[n]+'</svg>';
+
+const ZONES=['Transmission','Freins','Pneus','Cockpit','Selle','Suspension','Défaut'];
+const CH=[
+  {id:'site',name:'Site CycloGordo',desc:'Dans « Vélos en vente », avec les gros plans.',mode:'auto',label:'Automatique',lock:true},
+  {id:'google',name:'Google Shopping',desc:'Fiche gratuite dans Google (flux Merchant Center).',mode:'auto',label:'Automatique'},
+  {id:'meta',name:'Facebook et Instagram',desc:'Catalogue Meta : vélos visibles sur la page Facebook et identifiables dans les publications Instagram.',mode:'auto',label:'Automatique'},
+  {id:'ricardo',name:'Ricardo',desc:'Flux produit envoyé à Ricardo, prix fixe. Activé après accord de Ricardo ; en attendant, texte prêt à copier.',mode:'cond',label:'Sur accord Ricardo'},
+  {id:'anibis',name:'anibis.ch',desc:'Texte et photos prêts à coller.',mode:'assist',label:'Prêt à copier'},
+  {id:'tutti',name:'Tutti.ch',desc:'Texte et photos prêts à coller.',mode:'assist',label:'Prêt à copier'},
+  {id:'fbm',name:'Marketplace Facebook',desc:'Texte et photos prêts à coller.',mode:'assist',label:'Prêt à copier'}
+];
+const ST={online:['En ligne','s-online'],res:['Réservé','s-res'],sold:['Vendu','s-sold']};
+const bikes=[
+  {id:1,name:'LOOK 920',type:'VTT',price:1100,size:'',status:'online',img:'img/look.webp',desc:'Cadre carbone, suspension RockShox avant et arrière, freins à disque, tige de selle télescopique. Révisé par notre atelier.',
+   points:[{z:'Transmission',x:16,y:80,cl:1},{z:'Suspension',x:38,y:72,cl:1},{z:'Freins',x:82,y:80,cl:1},{z:'Selle',x:32,y:43,cl:1}],ch:['site','google','meta','tutti']},
+  {id:2,name:'Kona Lisa HT',type:'VTT',price:299,size:'',status:'online',img:'img/kona.webp',desc:'Fourche suspendue, freins à disque, triple plateau, pneus Maxxis. Selle marquée par l\'usage.',
+   points:[{z:'Transmission',x:21,y:87},{z:'Freins',x:80,y:82},{z:'Pneus',x:70,y:69},{z:'Cockpit',x:72,y:47},{z:'Selle',x:36,y:51}],ch:['site','google','meta']},
+  {id:3,name:'Vélo de ville',type:'Ville',price:1259,size:'',status:'online',img:'',desc:'',points:[],ch:['site']},
+  {id:4,name:'Focus Mares Cyclo-cross',type:'Gravel / cyclo-cross',price:1800,size:'',status:'online',img:'',desc:'',points:[],ch:['site']}
+];
+const bookings=[
+  {id:1,day:'Jeudi 23 octobre',h:'09:30',who:'Sophie M.',bike:'Vélo de ville électrique',svc:'Révision complète',st:'wait'},
+  {id:2,day:'Jeudi 23 octobre',h:'14:30',who:'Luca R.',bike:'Route carbone',svc:'Freins',st:'wait'},
+  {id:3,day:'Vendredi 24 octobre',h:'10:00',who:'Ana P.',bike:'LOOK 920 (annonce)',svc:'Essai d\'un vélo d\'occasion',st:'wait'},
+  {id:4,day:'Vendredi 24 octobre',h:'16:00',who:'Marc D.',bike:'Cargo',svc:'Pneus et roues',st:'ok'},
+  {id:5,day:'Samedi 25 octobre',h:'09:00',who:'Julie B.',bike:'VTT',svc:'Chaîne et vitesses',st:'ok'}
+];
+const site={hours:[['Lundi','13:00 – 18:30'],['Mardi','9:30 – 13:30 · 14:30 – 18:30'],['Mercredi','9:30 – 13:30 · 14:30 – 18:30'],['Jeudi','9:30 – 13:30 · 14:30 – 18:30'],['Vendredi','9:30 – 13:30 · 14:30 – 18:30'],['Samedi','9:00 – 12:30'],['Dimanche','']],
+  svc:[['Réparation express','Tarif à préciser'],['Révision complète','Tarif à préciser'],['Montage et vélos d\'entreprise','Sur devis']]};
+
+const S={view:'home',edit:null,zone:'Transmission',filter:'all',q:'',bookTab:'wait',banner:true,dirty:false};
+const TABS=[['home','Accueil','home'],['ads','Annonces','bike'],['book','Atelier','cal'],['site','Site','site']];
+const TITLES={home:'Accueil',ads:'Annonces vélos',book:'Réservations atelier',site:'Textes et horaires'};
+
+function toast(t){const el=$('#toast');el.textContent=t;el.hidden=false;clearTimeout(toast._t);toast._t=setTimeout(()=>el.hidden=true,2800)}
+const waitN=()=>bookings.filter(b=>b.st==='wait').length;
+const missing=b=>[!b.img&&'photo',!b.size&&'taille',!b.points.length&&'gros plans',!b.desc&&'description'].filter(Boolean);
+const score=b=>Math.round((4-missing(b).length)/4*100);
+
+function shell(){
+  const badge=k=>k==='book'&&waitN()?'<span class="badge">'+waitN()+'</span>':'';
+  $('#sidenav').innerHTML=TABS.map(([k,l,i])=>'<button class="navbtn" type="button" data-nav="'+k+'" aria-current="'+(S.view===k&&!S.edit?'page':'false')+'">'+ico(i)+l+badge(k)+'</button>').join('');
+  $('#tabbar').innerHTML=TABS.map(([k,l,i])=>'<button class="tab" type="button" data-nav="'+k+'" aria-current="'+(S.view===k?'page':'false')+'"><span class="ico">'+ico(i)+'</span>'+l+badge(k)+'</button>').join('');
+  $('#appbar').innerHTML=S.edit
+    ?'<button class="iconbtn" type="button" data-act="back" aria-label="Retour aux annonces">'+ico('back')+'</button><span class="ttl">'+esc(S.edit.id?S.edit.name||'Annonce':'Nouvelle annonce')+'</span>'
+    :'<img class="logo" src="img/logo.png" alt="Cyclo Gordo" width="478" height="134"><span class="ttl">'+TITLES[S.view]+'</span>';
+  $('#fab').hidden=!!S.edit||!(S.view==='home'||S.view==='ads');
+}
+function go(v){
+  if(S.edit&&S.dirty&&!S._confirm){S._confirm=v;return toast('Modifications non enregistrées : touchez encore pour quitter sans enregistrer.')}
+  S._confirm=null;S.view=v;S.edit=null;S.dirty=false;render();scrollTo({top:0});
+}
+
+const banner=()=>S.banner?'<div class="banner"><span><b>Démonstration.</b> Les réservations et les chiffres sont des exemples.</span><button type="button" data-act="hideBanner" aria-label="Masquer ce message">'+ico('x',18)+'</button></div>':'';
+const pill=st=>'<span class="pill '+ST[st][1]+'">'+ST[st][0]+'</span>';
+
+/* ---------- Accueil ---------- */
+function home(){
+  const live=bikes.filter(b=>b.status!=='sold'), inc=live.filter(b=>missing(b).length), w=waitN();
+  return banner()+`
+  <div class="head desk"><div><h1>Bonjour l'atelier</h1><p class="sub">Ce qui demande votre attention aujourd'hui.</p></div></div>
+  <div class="todo">
+    <button class="tile${w?' hot':''}" type="button" data-nav="book"><span class="n">${w}</span><span><span class="t">Réservations à confirmer</span><br><span class="m">Demandes reçues depuis le site</span></span><span class="go">${ico('chev')}</span></button>
+    <button class="tile" type="button" data-nav="ads" data-filter="todo"><span class="n">${inc.length}</span><span><span class="t">Annonces à compléter</span><br><span class="m">Photo, taille ou gros plans manquants</span></span><span class="go">${ico('chev')}</span></button>
+    <button class="tile" type="button" data-nav="ads" data-filter="online"><span class="n">${bikes.filter(b=>b.status==='online').length}</span><span><span class="t">Vélos en vente</span><br><span class="m">${chf(bikes.filter(b=>b.status==='online').reduce((a,b)=>a+b.price,0))} au total</span></span><span class="go">${ico('chev')}</span></button>
+  </div>
+  <section class="panel"><div class="head"><h2>Prochains rendez-vous</h2><button class="btn sm ghost" type="button" data-nav="book">Tout voir</button></div>
+    <div class="list">${bookings.filter(b=>b.st!=='moved').slice(0,4).map(b=>`<button class="item" type="button" data-nav="book"><span class="price" style="width:52px">${esc(b.h)}</span><span class="grow"><span class="t">${esc(b.svc)} · ${esc(b.who)}</span><br><span class="m">${esc(b.day)} · ${esc(b.bike)}</span></span>${b.st==='wait'?'<span class="pill s-wait">À confirmer</span>':'<span class="pill s-online">Confirmé</span>'}</button>`).join('')}</div></section>
+  <section class="panel"><div class="head"><h2>Annonces à compléter</h2><button class="btn sm ghost" type="button" data-nav="ads">Annonces</button></div>
+    <div class="list">${inc.map(b=>`<button class="item" type="button" data-edit="${b.id}">${b.img?`<img class="thumb" src="${esc(b.img)}" alt="">`:'<span class="thumb" aria-hidden="true"></span>'}<span class="grow"><span class="t">${esc(b.name)}</span><br><span class="m">Manque : ${missing(b).join(', ')}</span></span><span class="meter" aria-label="Complète à ${score(b)} %"><i style="width:${score(b)}%"></i></span><span class="chev">${ico('chev')}</span></button>`).join('')||'<p class="sub">Toutes les annonces sont complètes.</p>'}</div></section>`;
+}
+
+/* ---------- Annonces ---------- */
+function ads(){
+  const F={all:['Toutes',()=>true],online:['En ligne',b=>b.status==='online'],res:['Réservées',b=>b.status==='res'],sold:['Vendues',b=>b.status==='sold'],todo:['À compléter',b=>b.status!=='sold'&&missing(b).length]};
+  const q=S.q.toLowerCase();
+  const list=bikes.filter(F[S.filter][1]).filter(b=>!q||(b.name+' '+b.type).toLowerCase().includes(q));
+  return `
+  <div class="head desk"><div><h1>Annonces vélos</h1><p class="sub">Créez l'annonce une fois : elle part sur le site et sur les canaux choisis.</p></div><button class="btn yellow" type="button" data-act="new"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Nouvelle annonce</button></div>
+  <div class="toolbar">
+    <label class="search"><span class="sr">Rechercher un vélo</span>${ico('search')}<input id="q" type="search" placeholder="Rechercher un vélo" value="${esc(S.q)}" autocomplete="off"></label>
+    <div class="seg" role="group" aria-label="Filtrer">${Object.entries(F).map(([k,v])=>`<button type="button" data-filter="${k}" aria-pressed="${S.filter===k}">${v[0]} <span style="opacity:.6">${bikes.filter(v[1]).length}</span></button>`).join('')}</div>
+  </div>
+  ${list.length?`<div class="cards">${list.map(b=>`<button class="ad${b.status==='sold'?' sold':''}" type="button" data-edit="${b.id}">
+    ${b.img?`<img class="ph" src="${esc(b.img)}" alt="">`:`<span class="phe">${ico('cam',28)}<br>Pas encore de photo</span>`}
+    <span class="bd"><span class="r"><span class="name">${esc(b.name)}</span>${pill(b.status)}</span>
+    <span class="r"><span class="price">${chf(b.price)}</span><span style="font-size:13px;color:var(--mute)">${b.ch.length} canal${b.ch.length>1?'ux':''}</span></span>
+    ${missing(b).length&&b.status!=='sold'?`<span class="warn">${ico('warn',16)}Manque : ${missing(b).join(', ')}</span>`:''}</span></button>`).join('')}</div>`
+  :'<div class="panel empty">Aucune annonce ne correspond. <button class="btn sm" type="button" data-filter="all" style="margin-left:8px">Tout afficher</button></div>'}`;
+}
+
+/* ---------- Éditeur ---------- */
+function editor(){
+  const b=S.edit, placed=new Set(b.points.map(p=>p.z)), cur=b.points.find(p=>p.z===S.zone);
+  const checks=[['Photo principale',!!b.img],['Nom et prix',!!(b.name&&b.price)],['Taille',!!b.size],['Au moins 3 gros plans',b.points.length>=3],['Description',!!b.desc]];
+  return `
+  <div class="head desk"><div><button class="btn sm ghost" type="button" data-act="back" style="margin-left:-12px">${ico('back',18)}Annonces</button><h1 style="margin-top:6px">${esc(b.id?b.name:'Nouvelle annonce')}</h1></div></div>
+  <div class="editor">
+    <div class="col">
+      <section class="panel">
+        <div class="head"><h2>Photo et gros plans</h2>${b.img?`<span class="btn sm filebtn">${ico('cam',16)}Changer<input type="file" accept="image/*" id="ph" aria-label="Changer la photo principale"></span>`:''}</div>
+        <div class="stage" id="stage" role="${b.img?'button':'presentation'}" aria-label="${b.img?'Touchez la photo pour placer le point '+esc(S.zone):''}">
+          ${b.img?`<img src="${esc(b.img)}" alt="">`:`<label class="ph-empty">${ico('cam')}<b>Ajouter la photo principale</b><span>Vélo entier, de profil, côté transmission</span><input type="file" accept="image/*" id="ph" class="sr"></label>`}
+          ${b.points.map((p,i)=>`<span class="pt${p.z===S.zone?' cur':''}${p.x>62?' left':''}" style="left:${p.x}%;top:${p.y}%"><b>${i+1}</b><span>${esc(p.z)}</span></span>`).join('')}
+          ${b.img?`<span class="cue">Touchez la photo sur : ${esc(S.zone)}</span>`:''}
+        </div>
+        <div class="zonebar" role="group" aria-label="Pièce à placer">${ZONES.map(z=>`<button type="button" data-zone="${esc(z)}" aria-pressed="${z===S.zone}">${placed.has(z)?'<span class="dot" aria-hidden="true"></span>':''}${esc(z)}</button>`).join('')}</div>
+        ${b.points.length?`<div class="placed"><ul>${b.points.map((p,i)=>`<li><span class="no">${i+1}</span><span class="grow">${esc(p.z)}<br><span class="m">${p.cl?'Gros plan ajouté':'Zoom dans la photo'}</span></span>
+          <span class="btn sm filebtn">${p.cl?'Remplacer':'Ajouter un gros plan'}<input type="file" accept="image/*" data-cl="${esc(p.z)}" aria-label="Gros plan ${esc(p.z)}"></span>
+          <button class="iconbtn" type="button" data-rm="${esc(p.z)}" aria-label="Retirer le point ${esc(p.z)}">${ico('x')}</button></li>`).join('')}</ul></div>`:''}
+      </section>
+    </div>
+    <div class="col">
+      <section class="panel"><h2 style="margin-bottom:12px">Informations</h2>
+        <div class="form">
+          <label class="full" for="f-name"><span class="req">Nom du vélo</span><input id="f-name" data-f="name" value="${esc(b.name)}" placeholder="ex. Trek FX 2" autocomplete="off"></label>
+          <label for="f-price"><span class="req">Prix (CHF)</span><input id="f-price" data-f="price" inputmode="numeric" value="${b.price||''}" placeholder="ex. 650"></label>
+          <label for="f-size">Taille<input id="f-size" data-f="size" value="${esc(b.size)}" placeholder="ex. M · 54 cm"></label>
+          <label class="full" for="f-type">Type<select id="f-type" data-f="type">${['Ville','Route','Gravel / cyclo-cross','VTT','Électrique','Cargo','Enfant'].map(t=>`<option${t===b.type?' selected':''}>${t}</option>`).join('')}</select></label>
+          <div class="fld full"><span id="st-l">Statut</span><div class="statusseg" role="group" aria-labelledby="st-l">${Object.entries(ST).map(([k,v])=>`<button type="button" data-status="${k}" aria-pressed="${b.status===k}">${v[0]}</button>`).join('')}</div></div>
+          <label class="full" for="f-desc">Description et état<textarea id="f-desc" data-f="desc" placeholder="ex. Révisé, chaîne et plaquettes neuves, petite rayure sur le tube supérieur.">${esc(b.desc)}</textarea></label>
+        </div>
+        <ul class="check" aria-label="Annonce complète">${checks.map(([l,ok])=>`<li class="${ok?'ok':'ko'}">${ico(ok?'ok':'ko')}${l}</li>`).join('')}</ul>
+      </section>
+      <section class="panel"><h2>Diffusion</h2><p class="sub" style="margin-bottom:6px">Vendu = retiré automatiquement du site, de Google, de Facebook/Instagram et de Ricardo (si activé). À retirer à la main sur Tutti, anibis et Marketplace.</p>
+        ${CH.map(c=>`<label class="ch" for="c-${c.id}"><input class="switch" type="checkbox" id="c-${c.id}" data-ch="${c.id}"${b.ch.includes(c.id)?' checked':''}${c.lock?' disabled':''}><span class="grow"><span class="t">${c.name}</span><br><span class="m">${c.desc}</span></span><span class="tag ${c.mode}">${c.label}</span></label>`).join('')}
+        <button class="btn" type="button" data-act="copyPrep" style="margin-top:8px;width:100%">Préparer le texte pour Tutti, anibis et Marketplace</button>
+        <div id="copyZone" hidden style="margin-top:12px"><textarea class="copybox" id="copyText" readonly aria-label="Texte de l'annonce"></textarea><button class="btn sm" type="button" data-act="copy" style="margin-top:8px">Copier le texte</button></div>
+      </section>
+    </div>
+  </div>
+  <div class="savebar"><span class="state">${S.dirty?'Modifications non enregistrées':'Tout est enregistré'}</span>
+    ${b.id&&b.status!=='sold'?'<button class="btn" type="button" data-act="sold">Marquer vendu</button>':''}
+    <button class="btn primary" type="button" data-act="save">${b.id?'Enregistrer':'Publier l\'annonce'}</button></div>`;
+}
+
+/* ---------- Atelier ---------- */
+function book(){
+  const list=bookings.filter(b=>S.bookTab==='wait'?b.st==='wait':b.st!=='wait');
+  const days=[...new Set(list.map(b=>b.day))];
+  return `
+  <div class="head desk"><div><h1>Réservations atelier</h1><p class="sub">Les demandes envoyées depuis le site arrivent ici. Le client est prévenu par e-mail.</p></div></div>
+  <div class="seg" role="group" aria-label="Afficher" style="align-self:flex-start"><button type="button" data-btab="wait" aria-pressed="${S.bookTab==='wait'}">À confirmer <span style="opacity:.6">${waitN()}</span></button><button type="button" data-btab="done" aria-pressed="${S.bookTab!=='wait'}">Planning</button></div>
+  ${days.length?days.map(d=>`<section class="day"><h3>${esc(d)}</h3>${list.filter(b=>b.day===d).map(b=>`
+    <div class="slot"><span class="h">${esc(b.h)}</span><div style="min-width:0"><div class="t">${esc(b.svc)}</div><div class="m">${esc(b.who)} · ${esc(b.bike)}</div></div>
+    <div class="acts">${b.st==='wait'?`<button class="btn sm" type="button" data-move="${b.id}">Autre créneau</button><button class="btn sm primary" type="button" data-okb="${b.id}">Confirmer</button>`:b.st==='ok'?'<span class="pill s-online">Confirmé</span>':'<span class="pill s-wait">Créneau proposé</span>'}</div></div>`).join('')}</section>`).join('')
+  :'<div class="panel empty">Aucune demande en attente. Les nouvelles demandes du site apparaîtront ici.</div>'}`;
+}
+
+/* ---------- Site ---------- */
+function siteView(){
+  return `
+  <div class="head desk"><div><h1>Textes et horaires</h1><p class="sub">Ce que vous changez ici s'affiche sur le site.</p></div></div>
+  <div class="two">
+    <section class="panel"><h2 style="margin-bottom:6px">Horaires d'ouverture</h2>${site.hours.map((h,i)=>`<div class="hrow"><span>${h[0]}</span><label for="cl-${i}"><input class="switch" type="checkbox" id="cl-${i}" data-open="${i}"${h[1]?' checked':''}>Ouvert</label><input type="text" aria-label="Horaires ${h[0]}" data-hour="${i}" value="${esc(h[1])}"${h[1]?'':' disabled placeholder="Fermé"'}></div>`).join('')}</section>
+    <section class="panel"><h2 style="margin-bottom:6px">Prestations et tarifs</h2>${site.svc.map((s,i)=>`<div class="srow"><input aria-label="Prestation ${i+1}" data-svcn="${i}" value="${esc(s[0])}"><input aria-label="Tarif ${i+1}" data-svcp="${i}" value="${esc(s[1])}"></div>`).join('')}<p class="sub">Les tarifs s'affichent sur les cartes de prestations.</p></section>
+  </div>
+  <div class="savebar"><span class="state">Les changements sont visibles sur le site dès l'enregistrement.</span><button class="btn primary" type="button" data-act="saveSite">Mettre à jour le site</button></div>`;
+}
+
+function render(){
+  shell();
+  const V=$('#view');
+  V.innerHTML=S.edit?editor():({home,ads,book,site:siteView})[S.view]();
+  const q=$('#q'); if(q&&S._focusQ){q.focus();q.setSelectionRange(q.value.length,q.value.length);S._focusQ=false}
+}
+
+function startEdit(b){
+  S.edit=b?JSON.parse(JSON.stringify(b)):{id:0,name:'',type:'Ville',price:'',size:'',status:'online',img:'',desc:'',points:[],ch:['site','google','meta']};
+  S.view='ads';S.zone=ZONES.find(z=>!S.edit.points.some(p=>p.z===z))||'Transmission';S.dirty=false;render();scrollTo({top:0});
+}
+function readFile(input,cb){const f=input.files&&input.files[0];if(!f)return;const r=new FileReader();r.onload=()=>cb(r.result);r.readAsDataURL(f)}
+function mark(){if(!S.dirty){S.dirty=true;const s=$('.savebar .state');if(s)s.textContent='Modifications non enregistrées'}}
+
+document.addEventListener('click',e=>{
+  const t=e.target.closest('button,[data-nav],#stage');if(!t)return;
+  if(t.dataset.nav){if(t.dataset.filter)S.filter=t.dataset.filter;return go(t.dataset.nav)}
+  const a=t.dataset.act;
+  if(a==='new')return startEdit(null);
+  if(a==='back')return go('ads');
+  if(a==='hideBanner'){S.banner=false;return render()}
+  if(t.dataset.filter){S.filter=t.dataset.filter;return render()}
+  if(t.dataset.edit)return startEdit(bikes.find(b=>b.id==t.dataset.edit));
+  if(t.dataset.btab){S.bookTab=t.dataset.btab;return render()}
+  const b=S.edit;
+  if(t.dataset.zone){S.zone=t.dataset.zone;return render()}
+  if(t.dataset.status){b.status=t.dataset.status;mark();$$('[data-status]').forEach(x=>x.setAttribute('aria-pressed',String(x===t)));return}
+  if(t.dataset.rm){b.points=b.points.filter(p=>p.z!==t.dataset.rm);mark();return render()}
+  if(t.id==='stage'&&b&&b.img){
+    const r=t.getBoundingClientRect();const x=Math.round((e.clientX-r.left)/r.width*100),y=Math.round((e.clientY-r.top)/r.height*100);
+    const old=b.points.find(p=>p.z===S.zone);
+    b.points=b.points.filter(p=>p.z!==S.zone).concat({z:S.zone,x,y,cl:old&&old.cl});mark();
+    const nx=ZONES.find(z=>!b.points.some(p=>p.z===z));if(nx&&!old)S.zone=nx;
+    return render();
+  }
+  if(a==='save'){
+    if(!b.name)return toast('Indiquez le nom du vélo.'),$('#f-name').focus();
+    if(!b.price)return toast('Indiquez le prix.'),$('#f-price').focus();
+    const autos=CH.filter(c=>c.mode==='auto'&&b.ch.includes(c.id)).map(c=>c.name);
+    if(b.id){bikes[bikes.findIndex(x=>x.id===b.id)]=b;toast('Enregistré. Mis à jour sur : '+autos.join(', ')+'.')}
+    else{b.id=Date.now();bikes.unshift(b);toast('Publié sur : '+autos.join(', ')+'.')}
+    S.edit=null;S.dirty=false;S.filter='all';return render();
+  }
+  if(a==='sold'){b.status='sold';bikes[bikes.findIndex(x=>x.id===b.id)]=b;S.edit=null;S.dirty=false;render();return toast('Vendu ! Retiré automatiquement du site, de Google et de Facebook/Instagram. Pensez à Tutti, anibis et Marketplace.')}
+  if(a==='copyPrep'){const L=[(b.name||'Vélo')+(b.size?' · taille '+b.size:'')+' · '+chf(b.price),'',b.desc||'[Description à compléter]','',b.points.length?'Pièces visibles en gros plan : '+b.points.map(p=>p.z.toLowerCase()).join(', ')+'.':null,'Vendu et révisé par l\'atelier CycloGordo, 5 rue Hoffmann, 1202 Genève. Essai possible au magasin.'].filter(l=>l!==null);
+    $('#copyText').value=L.join('\n');$('#copyZone').hidden=false;return}
+  if(a==='copy'){const ta=$('#copyText');const fb=()=>{ta.focus();ta.select();toast('Texte sélectionné : copiez-le.')};
+    try{navigator.clipboard.writeText(ta.value).then(()=>toast('Texte copié. Collez-le sur Tutti, anibis ou Marketplace.'),fb)}catch(_){fb()}return}
+  if(t.dataset.okb){bookings.find(x=>x.id==t.dataset.okb).st='ok';render();return toast('Confirmé. Le client reçoit un e-mail.')}
+  if(t.dataset.move){bookings.find(x=>x.id==t.dataset.move).st='moved';render();return toast('Le client reçoit une proposition de nouveau créneau.')}
+  if(a==='saveSite'){$$('[data-hour]').forEach(i=>site.hours[i.dataset.hour][1]=i.disabled?'':i.value);$$('[data-svcn]').forEach(i=>site.svc[i.dataset.svcn][0]=i.value);$$('[data-svcp]').forEach(i=>site.svc[i.dataset.svcp][1]=i.value);return toast('Le site est à jour.')}
+});
+document.addEventListener('input',e=>{
+  const t=e.target;
+  if(t.id==='q'){S.q=t.value;S._focusQ=true;return render()}
+  if(t.dataset.f&&S.edit){const k=t.dataset.f;S.edit[k]=k==='price'?(parseInt(t.value.replace(/\D/g,''),10)||''):t.value;mark();
+    if(k==='name'){const tt=$('#appbar .ttl');if(tt)tt.textContent=t.value||'Nouvelle annonce'}}
+});
+document.addEventListener('change',e=>{
+  const t=e.target;
+  if(t.id==='ph'&&S.edit)return readFile(t,src=>{S.edit.img=src;mark();render();toast('Photo ajoutée. Touchez maintenant la photo sur chaque pièce.')});
+  if(t.dataset.cl&&S.edit)return readFile(t,()=>{const p=S.edit.points.find(p=>p.z===t.dataset.cl);if(p)p.cl=1;mark();render();toast('Gros plan « '+t.dataset.cl+' » ajouté.')});
+  if(t.dataset.ch&&S.edit){S.edit.ch=['site',...$$('[data-ch]').filter(i=>i.checked&&i.dataset.ch!=='site').map(i=>i.dataset.ch)];mark();return}
+  if(t.dataset.f&&S.edit){S.edit[t.dataset.f]=t.value;mark();return}
+  if(t.dataset.open){const inp=$('[data-hour="'+t.dataset.open+'"]');inp.disabled=!t.checked;if(t.checked&&!inp.value)inp.value='9:00 – 18:00';if(!t.checked)inp.placeholder='Fermé'}
+});
+render();
+})();
+</script>
+
+</body>
+</html>

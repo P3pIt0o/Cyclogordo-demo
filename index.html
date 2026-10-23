@@ -1,0 +1,346 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style></head><body>
+<title>CycloGordo Atelier</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Hanken+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/site.css">
+
+<header id="hdr" class="gut">
+  <div class="wrap nav">
+    <a class="logo" href="index.html"><img src="img/logo.png" alt="Cyclo Gordo Genève, accueil" width="478" height="134"></a>
+    <ul><li><a href="index.html" aria-current="page">Accueil</a></li><li><a href="reparation.html">Réparation</a></li><li><a href="velos.html">Nos vélos</a></li><li><a href="pieces.html">Nos pièces</a></li></ul>
+    <div class="right">
+      <a class="phone" href="tel:+41223370907">+41 22 337 09 07</a>
+      <a class="btn" href="rdv.html">Prendre RDV en ligne</a>
+      <button class="menu-btn" type="button" id="menuBtn" aria-expanded="false" aria-controls="drawer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>Menu</button>
+    </div>
+  </div>
+</header>
+<div class="drawer" id="drawer" hidden>
+  <div class="top"><img src="img/logo.png" alt="Cyclo Gordo" width="478" height="134"><button class="close" type="button" id="menuClose" aria-label="Fermer le menu"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+  <a class="l" href="index.html" aria-current="page">Accueil</a><a class="l" href="reparation.html">Réparation</a><a class="l" href="velos.html">Nos vélos</a><a class="l" href="pieces.html">Nos pièces</a><a class="l" href="a-propos.html">À propos</a><a class="l" href="blog.html">Blog</a><a class="l" href="contact.html">Contact</a>
+  <a class="btn" href="rdv.html">Prendre RDV en ligne</a>
+  <a class="btn ghost" href="tel:+41223370907">Appeler le +41 22 337 09 07</a>
+</div>
+
+<main id="top">
+  <!-- 1. Sale → propre -->
+  <section class="wash" id="wash" aria-label="Avant et après la révision">
+    <div class="stage">
+      <div class="layer" id="lDirty"><img src="img/dirty.webp" alt="Vélo de route couvert de boue dans l'atelier CycloGordo"></div>
+      <div class="layer clean" id="lClean"><img src="img/clean.webp" alt="Le même vélo après révision, propre et brillant"></div>
+      <div class="beam" id="beam"></div>
+      <div class="washlabel" id="wlabel">À l'atelier</div>
+      <div class="shade"></div>
+      <div class="hero-copy gut">
+        <div class="wrap">
+          <div class="hc" id="hc1">
+            <p class="eyebrow">Vente · Réparation · Genève</p>
+            <h1 class="disp">Votre vélo est <span class="dirt">fatigué&nbsp;?</span></h1>
+            <p>Réparation, révision et vente de vélos neufs et d'occasion, rue Hoffmann à Genève.</p>
+          </div>
+          <div class="hc off" id="hc2">
+            <p class="eyebrow">Même vélo · après l'atelier</p>
+            <h2 class="disp">Réparé. Révisé. Prêt à rouler.</h2>
+            <p>Faites réparer le vôtre, ou trouvez le prochain parmi nos vélos neufs et d'occasion.</p>
+            <div class="row">
+              <a class="btn" href="rdv.html">Réserver une réparation</a>
+              <a class="btn ghost" href="#occasions">Voir les vélos en vente</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="scrollhint" id="hint"><i></i>Faites défiler</div>
+    </div>
+  </section>
+
+  <!-- 2. Gros plans -->
+  <section class="closer" id="atelier" aria-label="Ce que l'atelier contrôle">
+    <div class="stage">
+      <div class="shot" data-i="0"><img src="img/derailleur.webp" alt="Gros plan du dérailleur arrière et de la cassette"></div>
+      <div class="shot" data-i="1"><img src="img/brake.webp" alt="Gros plan de l'étrier de frein à disque hydraulique"></div>
+      <div class="shot" data-i="2"><img src="img/tire.webp" alt="Gros plan du pneu avant et de la jante carbone"></div>
+      <div class="shot" data-i="3"><img src="img/drops.webp" alt="Gouttes d'eau qui perlent sur le tube supérieur"></div>
+      <div class="hot" data-i="0" style="left:33%;top:50%"></div>
+      <div class="hot" data-i="1" style="left:70%;top:52%"></div>
+      <div class="hot" data-i="2" style="left:84%;top:62%"></div>
+      <div class="hot" data-i="3" style="left:67%;top:49%"></div>
+      <div class="shade"></div>
+      <div class="cl-ui">
+      <div class="cl-head gut"><div class="wrap">
+        <p class="eyebrow">Ce qu'on contrôle</p>
+        <h2 class="disp">Regardez de plus près.</h2>
+      </div></div>
+      <div class="cards gut"><div class="wrap">
+        <article class="card on" data-i="0">
+          <div class="k">Chaîne et vitesses <b>1 / 4</b></div>
+          <h3>Les vitesses sautent&nbsp;? La chaîne grince&nbsp;?</h3>
+          <p>On mesure l'usure de la chaîne, on nettoie et on graisse la transmission, puis on règle le dérailleur pour que chaque vitesse passe net. Si une pièce est à changer, on vous prévient avant.</p>
+          <ul class="chips"><li>Mesure d'usure</li><li>Nettoyage et graissage</li><li>Réglage du dérailleur</li></ul>
+          <a class="btn book-btn" href="#contact" data-svc="Service transmission">Réserver un entretien transmission</a>
+        </article>
+        <article class="card" data-i="1">
+          <div class="k">Freins <b>2 / 4</b></div>
+          <h3>Levier mou, frein qui siffle&nbsp;?</h3>
+          <p>On contrôle les plaquettes ou les patins et l'état des disques, on purge les freins hydrauliques si besoin et on règle les leviers. Vous repartez avec un freinage franc et silencieux.</p>
+          <ul class="chips"><li>Plaquettes ou patins</li><li>Purge hydraulique</li><li>Réglage des leviers</li></ul>
+          <a class="btn book-btn" href="#contact" data-svc="Service réglage">Réserver un contrôle des freins</a>
+        </article>
+        <article class="card" data-i="2">
+          <div class="k">Pneus et roues <b>3 / 4</b></div>
+          <h3>Crevaison, pneu usé, roue voilée&nbsp;?</h3>
+          <p>Réparation de crevaison, changement de pneu ou de chambre à air, passage en tubeless. On vérifie aussi la tension des rayons et on dévoile la roue si elle frotte.</p>
+          <ul class="chips"><li>Crevaison</li><li>Pneus et chambres</li><li>Dévoilage</li></ul>
+          <a class="btn book-btn" href="#contact" data-svc="Crevaison / pneu">Réserver pneus et roues</a>
+        </article>
+        <article class="card" data-i="3">
+          <div class="k">Révision complète <b>4 / 4</b></div>
+          <h3>Tout le vélo, de la selle au pédalier.</h3>
+          <p>Transmission, freins, roues, direction et serrages : tout est contrôlé et réglé. Le vélo est nettoyé avant de vous être rendu, et on vous explique ce qui a été fait.</p>
+          <ul class="chips"><li>Contrôle complet</li><li>Nettoyage</li><li>Explications au retrait</li></ul>
+          <a class="btn book-btn" href="#contact" data-svc="Service + Nettoyage">Réserver une révision complète</a>
+        </article>
+      </div></div>
+      </div>
+      <div class="progress" aria-hidden="true"><span class="on"></span><span></span><span></span><span></span></div>
+    </div>
+  </section>
+
+  <!-- 3. Services -->
+  <section class="block gut" aria-labelledby="svc-t">
+    <div class="wrap">
+      <div class="split">
+        <h2 class="disp" id="svc-t">Réparer, entretenir, prolonger la vie de votre vélo.</h2>
+        <p>De la simple crevaison à la révision complète, électrique ou mécanique&nbsp;: réservez en ligne, et consultez tous nos tarifs.</p>
+      </div>
+      <div class="services"><article class="svc">
+          <h3>Service réglage</h3>
+          <p>Contrôle complet du vélo : serrages et réglages pour rouler en toute sécurité.</p>
+          <ul><li>Serrages contrôlés</li><li>Freins et vitesses réglés</li><li>Contrôle de sécurité</li></ul>
+          <div class="price"><span>CHF <b>109.-</b></span><a href="#contact" data-svc="Service réglage">Réserver →</a></div>
+        </article><article class="svc feat">
+          <p class="eyebrow">Le plus demandé</p><h3>Service transmission</h3>
+          <p>Le service réglage, plus l'entretien complet de la transmission : chaîne, cassette et plateau si besoin.</p>
+          <ul><li>Tout le service réglage</li><li>Chaîne et cassette</li><li>Plateau si besoin</li></ul>
+          <div class="price"><span>CHF <b>159.-</b></span><a href="#contact" data-svc="Service transmission">Réserver →</a></div>
+        </article><article class="svc">
+          <h3>Service + Nettoyage</h3>
+          <p>Service complet avec nettoyage en profondeur, pour retrouver un vélo comme neuf, par exemple après une course.</p>
+          <ul><li>Service complet</li><li>Nettoyage en profondeur</li><li>Idéal après une course</li></ul>
+          <div class="price"><span>CHF <b>189.-</b></span><a href="#contact" data-svc="Service + Nettoyage">Réserver →</a></div>
+        </article></div>
+      <div class="more-row"><a class="btn ghost" href="reparation.html">Voir tous nos services et tarifs</a></div>
+    </div>
+  </section>
+
+  <!-- 4. Occasions -->
+  <section class="block gut" id="occasions" aria-labelledby="occ-t" style="padding-top:0">
+    <div class="wrap">
+      <div class="split">
+        <h2 class="disp" id="occ-t">Nos vélos&nbsp;: neufs, d'occasion, toujours prêts à rouler.</h2>
+        <p>Chaque vélo est révisé avant la vente. Sur sa fiche, vous voyez l'état des pièces qui s'usent (chaîne, freins, pneus) avant de passer l'essayer.</p>
+      </div>
+
+      <p class="eyebrow" style="margin-top:48px">Actuellement en stock</p>
+      <div class="stock" id="stockGrid">
+<article class="bike" data-etat="Occasion" data-cat="VTT" data-tailles="M" data-assist="Classique" data-prix="299" data-nom="KONA Lisa HT" data-card="fiche-kona"><a class="ph has" href="#fiche-kona" data-open="fiche-kona" tabindex="-1" aria-hidden="true"><img src="img/kona.webp" alt="Kona Lisa HT" loading="lazy"></a><div class="bd"><h4>KONA Lisa HT</h4><div class="meta"><span>Occasion</span><span>Taille M</span><span>VTT</span></div><span class="pr">CHF 299</span><button class="more" type="button" data-open="fiche-kona" aria-expanded="false" aria-controls="fiche-kona">Plus de détails</button></div>
+          <div class="demo sq" id="fiche-kona" data-bike="kona" hidden>
+        <div class="viewer sq">
+          <img class="v-img" src="img/kona.webp" alt="Kona Lisa HT blanc, VTT semi-rigide, devant le logo Cyclo Gordo">
+          <span class="tag">Zoom dans la photo du vélo</span>
+          <button class="btn ghost back" type="button" hidden>Vue d'ensemble</button>
+          <button class="pin" type="button" data-z="trans" style="left:21%;top:87%" aria-label="Zoom sur la transmission" aria-pressed="false"></button>
+          <button class="pin" type="button" data-z="pedal" style="left:46%;top:83%" aria-label="Zoom sur le pédalier" aria-pressed="false"></button>
+          <button class="pin" type="button" data-z="frein" style="left:80%;top:82%" aria-label="Zoom sur le frein avant" aria-pressed="false"></button>
+          <button class="pin" type="button" data-z="pneu" style="left:70%;top:69%" aria-label="Zoom sur le pneu avant" aria-pressed="false"></button>
+          <button class="pin" type="button" data-z="cockpit" style="left:72%;top:47%" aria-label="Zoom sur le cockpit" aria-pressed="false"></button>
+          <button class="pin" type="button" data-z="selle" style="left:36%;top:51%" aria-label="Zoom sur la selle" aria-pressed="false"></button>
+        </div>
+        <div class="sheet">
+          <div class="sheet-top"><p class="eyebrow">Occasion · en stock</p><button class="close" type="button" aria-label="Fermer la fiche"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+          <h3>Kona Lisa HT</h3>
+          <dl>
+            <dt>Type</dt><dd>VTT semi-rigide</dd>
+            <dt>Freins</dt><dd>À disque, avant et arrière</dd>
+            <dt>Pédalier</dt><dd>Triple plateau</dd>
+            <dt>Pneus</dt><dd>Maxxis à crampons</dd>
+            <dt>Taille</dt><dd>M</dd>
+            <dt>Prix</dt><dd class="pr-big">CHF 299</dd>
+          </dl>
+          <div class="zones" role="group" aria-label="Zones à inspecter">
+            <button type="button" data-z="trans" aria-pressed="false">Transmission</button>
+            <button type="button" data-z="pedal" aria-pressed="false">Pédalier</button>
+            <button type="button" data-z="frein" aria-pressed="false">Frein avant</button>
+            <button type="button" data-z="pneu" aria-pressed="false">Pneu</button>
+            <button type="button" data-z="cockpit" aria-pressed="false">Cockpit</button>
+            <button type="button" data-z="selle" aria-pressed="false">Selle</button>
+          </div>
+          <p class="note">Touchez un point jaune pour voir une pièce de près.</p>
+          <a class="btn" href="#contact" data-svc="Essai d'un vélo d'occasion">Réserver un essai</a>
+        </div>
+        </article>
+<article class="bike" data-etat="Occasion" data-cat="VTT" data-tailles="L" data-assist="Classique" data-prix="1100" data-nom="LOOK 920" data-card="fiche-look"><a class="ph has" href="#fiche-look" data-open="fiche-look" tabindex="-1" aria-hidden="true"><img src="img/look.webp" alt="LOOK 920" loading="lazy"></a><div class="bd"><h4>LOOK 920</h4><div class="meta"><span>Occasion</span><span>Taille L</span><span>VTT</span></div><span class="pr">CHF 1'100</span><button class="more" type="button" data-open="fiche-look" aria-expanded="false" aria-controls="fiche-look">Plus de détails</button></div>
+          <div class="demo sq" id="fiche-look" data-bike="look" hidden>
+        <div class="viewer sq">
+          <img class="v-img" src="img/look.webp" alt="LOOK 920 noir et rouge, VTT tout-suspendu carbone, devant le logo Cyclo Gordo">
+          <span class="tag">Gros plans : visuels d'illustration</span>
+          <button class="btn ghost back" type="button" hidden>Vue d'ensemble</button>
+          <button class="pin" type="button" data-z="trans" style="left:16%;top:80%" aria-label="Voir la transmission" aria-pressed="false"></button>
+          <button class="pin" type="button" data-z="susp" style="left:38%;top:72%" aria-label="Voir la suspension arrière" aria-pressed="false"></button>
+          <button class="pin" type="button" data-z="frein" style="left:82%;top:80%" aria-label="Voir le frein avant" aria-pressed="false"></button>
+          <button class="pin" type="button" data-z="selle" style="left:32%;top:43%" aria-label="Voir la selle" aria-pressed="false"></button>
+        </div>
+        <div class="sheet">
+          <div class="sheet-top"><p class="eyebrow">Occasion · en stock</p><button class="close" type="button" aria-label="Fermer la fiche"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+          <h3>LOOK 920</h3>
+          <dl>
+            <dt>Type</dt><dd>VTT tout-suspendu</dd>
+            <dt>Cadre</dt><dd>Carbone</dd>
+            <dt>Suspension</dt><dd>RockShox avant et arrière</dd>
+            <dt>Freins</dt><dd>À disque, avant et arrière</dd>
+            <dt>Tige de selle</dt><dd>Télescopique</dd>
+            <dt>Taille</dt><dd>L</dd>
+            <dt>Prix</dt><dd class="pr-big">CHF 1'100</dd>
+          </dl>
+          <div class="zones" role="group" aria-label="Zones à inspecter">
+            <button type="button" data-z="trans" aria-pressed="false">Transmission</button>
+            <button type="button" data-z="susp" aria-pressed="false">Suspension</button>
+            <button type="button" data-z="frein" aria-pressed="false">Frein avant</button>
+            <button type="button" data-z="selle" aria-pressed="false">Selle</button>
+          </div>
+          <p class="note">Touchez un point jaune pour voir une pièce de près.</p>
+          <a class="btn" href="#contact" data-svc="Essai d'un vélo d'occasion">Réserver un essai</a>
+        </div>
+      </div>
+        </article>
+<article class="bike" data-etat="Occasion" data-cat="Gravel" data-tailles="M" data-assist="Classique" data-prix="1800" data-nom="Focus Mares Cyclo cross"><div class="ph soon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>Photos à venir</div><div class="bd"><h4>Focus Mares Cyclo cross</h4><div class="meta"><span>Occasion</span><span>Taille M</span><span>Gravel</span></div><span class="pr">CHF 1'800</span></div></article>
+<article class="bike" data-etat="" data-cat="Vélo de ville" data-tailles="S" data-assist="" data-prix="1259" data-nom="Vélo de Ville"><div class="ph soon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>Photos à venir</div><div class="bd"><h4>Vélo de Ville</h4><div class="meta"><span>Taille S</span><span>Vélo de ville</span></div><span class="pr">CHF 1'259</span></div></article>
+      </div>
+      <div class="more-row"><a class="btn" href="velos.html">Voir tous les vélos (25)</a></div>
+    </div>
+  </section>
+
+<section class="block gut" aria-label="Promotion du mois">
+    <div class="wrap"><div class="promo"><span class="big">500.-</span><div><h3>Vélo Moustache en promotion</h3><p>Pour octobre, nous avons 1 voucher de CHF 500.- disponible, uniquement sur les vélos en promotion. Venez les essayer.</p></div><a class="btn" href="velos.html">Voir les vélos en promo</a></div></div>
+  </section>
+<section class="block gut" aria-labelledby="rev-t" style="padding-top:0">
+    <div class="wrap">
+      <div class="split"><h2 class="disp" id="rev-t">Ils nous font confiance.</h2><div class="rev-side"><span class="gbadge"><span class="g"><span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span></span><span><span class="s">★★★★★</span><br><small>22 avis · note 5,0</small></span></span><p style="margin:0;color:var(--mute)">Des dizaines de clients satisfaits. Voici quelques avis laissés sur Google après un passage à l'atelier ou au magasin.</p></div></div>
+      <div class="reviews"><article class="review"><span class="st" aria-label="5 étoiles sur 5">★★★★★</span><b>Gabriel</b><p>« … Il a su le réparer sans devoir le changer […] Un super accueil, on sent qu&#x27;on laisse notre vélo entre les mains d&#x27;un passionné. Je ne peux que recommander. Merci encore »</p><small>Il y a 5 mois · Google</small></article><article class="review"><span class="st" aria-label="5 étoiles sur 5">★★★★★</span><b>Frédéric</b><p>« Excellent mécanicien vélo, passionné, accueillant et arrangeant. Il a réparé plusieurs de mes vélos, aussi bien du haut de gamme que mon vélo du quotidien, toujours avec des solutions adaptées et économiques. Je recommande les yeux fermés ! »</p><small>Il y a 2 semaines · Google</small></article><article class="review"><span class="st" aria-label="5 étoiles sur 5">★★★★★</span><b>Roberto</b><p>« Parmi les meilleurs mécanos de Genève, il est capable de réparer toute genre de vélo, il est serviable, très sympa. Je le suis depuis 20 ans dans tous les magasins où il a été et enfin il a son propre magasin ! Je leur recommande vivement, très professionnel »</p><small>Il y a 1 mois · Google</small></article></div>
+    </div>
+  </section>
+<section class="block gut" aria-labelledby="par-t" style="padding-top:0">
+    <div class="wrap">
+      <div class="split"><h2 class="disp" id="par-t">Nos partenaires, nos alliés locaux.</h2><p>CycloGordo collabore avec des marques, des collectivités et des ateliers suisses qui partagent nos valeurs de mobilité durable et de proximité. Merci à eux pour leur confiance.</p></div>
+      <div class="partners"><div class="partner"><img src="img/p/newbikestore.png" alt="New Bike Store" loading="lazy"></div><div class="partner"><img src="img/p/belimport.png" alt="Belimport" loading="lazy"></div><div class="partner"><img src="img/p/batoo.png" alt="Batoo" loading="lazy"></div><div class="partner"><img src="img/p/amsler.png" alt="Amsler" loading="lazy"></div><div class="partner"><img src="img/p/fuchs.png" alt="Fuchs-Movesa" loading="lazy"></div><div class="partner"><img src="img/p/habere.png" alt="Habère-Poche" loading="lazy"></div></div>
+    </div>
+  </section>
+<section class="block gut" aria-labelledby="blog-t" style="padding-top:0">
+    <div class="wrap">
+      <div class="split"><h2 class="disp" id="blog-t">Conseils vélo, actus et coups de cœur.</h2><p>Nos articles pour bien entretenir votre vélo, suivre la vie du magasin ou en savoir plus sur la mobilité douce à Genève.</p></div>
+      <div class="posts"><a class="post" href="blog-autonomie-bosch.html"><div class="im"><img src="img/blog/bosch.webp" alt="" loading="lazy"></div><div class="bd"><span class="cat">Inspiration</span><h3>Calculez l&#x27;autonomie de votre vélo Bosch</h3><p>Le lien vers l&#x27;assistant d&#x27;autonomie Bosch, pour estimer jusqu&#x27;où vous pouvez aller.</p></div></a><a class="post" href="blog-cues-q-auto.html"><div class="im"><img src="img/blog/vento.webp" alt="" loading="lazy"></div><div class="bd"><span class="cat">Actualité</span><h3>Testez les changements de vitesse Cues Q-Auto</h3><p>Recharge automatique du dérailleur Cues Q-Auto.</p></div></a><a class="post" href="blog-liv.html"><div class="im"><img src="img/blog/liv.webp" alt="" loading="lazy"></div><div class="bd"><span class="cat">Actualité</span><h3>LIV, marque de vélo pour femme</h3><p>La marque Liv est spécialement conçue pour les femmes.</p></div></a></div>
+      <div class="more-row"><a class="btn ghost" href="blog.html">Voir tous les articles</a></div>
+    </div>
+  </section>
+
+  <!-- 5. Final + réservation -->
+  <section class="final gut" id="contact" aria-labelledby="fin-t">
+    <img src="img/final.webp" alt="Le vélo révisé, prêt à repartir, dans l'atelier" loading="lazy">
+    <div class="wrap">
+      <p class="eyebrow">5 rue Hoffmann · 1202 Genève</p>
+      <h2 class="disp" id="fin-t">Prêt à rouler.</h2>
+      <div class="book">
+        <form class="req" id="req" novalidate>
+          <label for="f-name">Nom<input id="f-name" name="name" autocomplete="name" required></label>
+          <label for="f-bike">Votre vélo<input id="f-bike" name="bike" placeholder="ex. route, VTT, cargo…"></label>
+          <label for="f-svc">Service<select id="f-svc" name="svc"><option>Service réglage</option><option>Service transmission</option><option>Service + Nettoyage</option><option>Crevaison / pneu</option><option>Mise en boîte</option><option>Premier service vélo neuf</option><option>Essai d&#x27;un vélo d&#x27;occasion</option><option>Montage / vélo d&#x27;entreprise</option><option>Autre demande</option></select></label>
+          <label for="f-date">Date souhaitée<input id="f-date" name="date" type="date"></label>
+          <button class="btn full" type="submit">Envoyer ma demande</button>
+          <p class="ok" id="ok" hidden></p>
+        </form>
+        <div class="info">
+          <div class="stars">5,0 ★<small>22 avis Google</small></div>
+          <div><h3>Contact</h3><p style="margin:0"><a href="tel:+41223370907" style="color:inherit">+41 22 337 09 07</a><br><a href="mailto:info@cyclogordo.ch" style="color:inherit">info@cyclogordo.ch</a></p></div>
+          <div>
+            <h3>Horaires</h3>
+            <table>
+              <tr><td>Lundi</td><td>13:00 – 18:30</td></tr>
+              <tr><td>Mar – Ven</td><td>9:30 – 13:30 · 14:30 – 18:30</td></tr>
+              <tr><td>Samedi</td><td>9:00 – 12:30</td></tr>
+              <tr><td>Dimanche</td><td>Fermé</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot gut">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a class="logo-w" href="index.html"><img src="img/logo.png" alt="Cyclo Gordo Genève" width="478" height="134"></a>
+        <p style="margin:0">CycloGordo<br>5 rue Hoffmann<br>1202 Genève, Suisse</p>
+        <div class="socials"><a href="https://www.instagram.com/cyclogordo/" aria-label="Instagram de CycloGordo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a><a href="https://www.facebook.com/gordobmx" aria-label="Facebook de CycloGordo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M14 8h3V4h-3a4 4 0 0 0-4 4v3H7v4h3v6h4v-6h3l1-4h-4V8z"/></svg></a></div>
+      </div>
+      <div><h3>Horaires</h3><table><tr><td>Lundi</td><td>13:00 – 18:30</td></tr><tr><td>Mardi – vendredi</td><td>9:30 – 13:30 · 14:30 – 18:30</td></tr><tr><td>Samedi</td><td>9:00 – 12:30</td></tr><tr><td>Dimanche</td><td>Fermé</td></tr></table></div>
+      <div><h3>Contact</h3><ul><li><a href="tel:+41223370907">+41 22 337 09 07</a></li><li><a href="mailto:info@cyclogordo.ch">info@cyclogordo.ch</a></li><li><a href="https://www.google.com/maps/search/?api=1&amp;query=5+rue+Hoffmann+1202+Gen%C3%A8ve">Itinéraire</a></li></ul></div>
+      <div><h3>Le site</h3><ul><li><a href="index.html">Accueil</a></li><li><a href="reparation.html">Réparation</a></li><li><a href="velos.html">Nos vélos</a></li><li><a href="pieces.html">Nos pièces</a></li><li><a href="a-propos.html">À propos</a></li><li><a href="blog.html">Blog</a></li><li><a href="contact.html">Contact</a></li><li><a href="rdv.html">Prendre RDV</a></li></ul></div>
+    </div>
+    <div class="foot-bottom"><span>© 2026 CycloGordo · Le vélo pour tous, à Genève</span><span>Politique de confidentialité · Conditions générales de vente</span><span>Maquette de démonstration · <a href="admin.html" style="color:inherit">Espace magasin</a></span></div>
+  </div>
+</footer>
+
+<script src="assets/site.js"></script>
+<script>
+(function(){
+  const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+  const hdr=$('#hdr'), wash=$('#wash'), clean=$('#lClean'), dirty=$('#lDirty'), beam=$('#beam'), lab=$('#wlabel'),
+        hc1=$('#hc1'), hc2=$('#hc2'), hint=$('#hint'), closer=$('#atelier');
+  const shots=$$('.shot'), hots=$$('.hot'), cards=$$('.card'), bars=$$('.progress span');
+  const clamp=(v,a,b)=>Math.min(b,Math.max(a,v)), ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+  function prog(el){const r=el.getBoundingClientRect();const h=r.height-innerHeight;return h>0?clamp(-r.top/h,0,1):0}
+  let last=-1;
+  function frame(){
+    hdr.classList.toggle('solid',scrollY>40);
+    // Lavage
+    const p=prog(wash);
+    const w=clamp((p-.12)/.62,0,1), e=ease(w);
+    const pct=e*100;
+    clean.style.clipPath='inset(0 '+(100-pct)+'% 0 0)';
+    beam.style.left=pct+'%';
+    beam.style.opacity=(w>0&&w<1)?1:0;
+    lab.style.left='calc('+pct+'% + 22px)';
+    lab.style.opacity=(w>.04&&w<.8)?1:0;
+    const z=1.08-p*.08;
+    dirty.style.transform=clean.style.transform='scale('+z+')';
+    hc1.classList.toggle('off',w>.08);
+    hc2.classList.toggle('off',w<.92);
+    hint.style.opacity=p>.05?0:1;
+    // Gros plans
+    const q=prog(closer), n=shots.length, pos=q*n, idx=clamp(Math.floor(pos),0,n-1);
+    shots.forEach((s,i)=>{
+      const local=pos-i; // 0..1 dans sa plage
+      let o=0;
+      if(i===0) o=local<1?1:clamp(1-(local-1)*6,0,1);
+      else o=clamp(local*6,0,1)*(i===n-1?1:clamp(1-(local-1)*6,0,1));
+      s.style.opacity=o;
+      s.style.transform='scale('+(1.18-clamp(local,0,1)*.18)+')';
+    });
+    if(idx!==last){
+      last=idx;
+      cards.forEach((c,i)=>c.classList.toggle('on',i===idx));
+      hots.forEach((h,i)=>h.style.opacity=i===idx?1:0);
+      bars.forEach((b,i)=>b.classList.toggle('on',i<=idx));
+    }
+  }
+  let ticking=false;
+  addEventListener('scroll',()=>{if(!ticking){ticking=true;requestAnimationFrame(()=>{frame();ticking=false})}},{passive:true});
+  addEventListener('resize',frame);
+  frame();
+
+})();
+</script>
+</body></html>
