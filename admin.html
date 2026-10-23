@@ -367,6 +367,7 @@ function ads(){
   ${list.length?`<div class="cards">${list.map(b=>`<button class="ad${b.status==='sold'?' sold':''}" type="button" data-edit="${b.id}">
     ${b.img?`<img class="ph" src="${esc(b.img)}" alt="">`:`<span class="phe">${ico('cam',28)}<br>Pas encore de photo</span>`}
     <span class="bd"><span class="r"><span class="name">${esc(b.name)}</span>${pill(b.status)}</span>
+    <span style="display:flex;flex-wrap:wrap;gap:6px;font-size:12px;font-weight:600"><span style="padding:2px 8px;border-radius:6px;background:var(--line)">${esc(b.etat||'Occasion')}</span>${b.promo?'<span style="padding:2px 8px;border-radius:6px;background:var(--yellow);color:#14171c">Promo</span>':''}${b.featured?`<span style="padding:2px 8px;border-radius:6px;background:var(--green-bg);color:var(--green)">★ ${esc(b.badge||'Coup de cœur')}</span>`:''}</span>
     <span class="r"><span class="price">${chf(b.price)}</span><span style="font-size:13px;color:var(--mute)">${b.ch.length} canal${b.ch.length>1?'ux':''}</span></span>
     ${missing(b).length&&b.status!=='sold'?`<span class="warn">${ico('warn',16)}Manque : ${missing(b).join(', ')}</span>`:''}</span></button>`).join('')}</div>`
   :'<div class="panel empty">Aucune annonce ne correspond. <button class="btn sm" type="button" data-filter="all" style="margin-left:8px">Tout afficher</button></div>'}`;
@@ -400,6 +401,11 @@ function editor(){
           <label for="f-price"><span class="req">Prix (CHF)</span><input id="f-price" data-f="price" inputmode="numeric" value="${b.price||''}" placeholder="ex. 650"></label>
           <label for="f-size">Taille<input id="f-size" data-f="size" value="${esc(b.size)}" placeholder="ex. M · 54 cm"></label>
           <label class="full" for="f-type">Type<select id="f-type" data-f="type">${['Ville','Route','Gravel / cyclo-cross','VTT','Électrique','Cargo','Enfant'].map(t=>`<option${t===b.type?' selected':''}>${t}</option>`).join('')}</select></label>
+          <div class="fld full"><span id="et-l">État</span><div class="statusseg" style="grid-template-columns:repeat(2,minmax(0,1fr))" role="group" aria-labelledby="et-l">${['Occasion','Neuf'].map(v=>`<button type="button" data-etat="${v}" aria-pressed="${(b.etat||'Occasion')===v}">${v}</button>`).join('')}</div></div>
+          <div class="fld full" style="gap:10px"><label class="ch" for="fl-promo" style="padding:0;border:0;color:var(--ink);font-size:15px"><input class="switch" type="checkbox" id="fl-promo" data-flag="promo"${b.promo?' checked':''}><span class="grow"><span class="t">En promotion</span><br><span class="m">Pastille « Promo » et ancien prix barré</span></span></label>
+            ${b.promo?`<label for="f-old">Prix avant promotion (CHF)<input id="f-old" data-f="oldPrice" inputmode="numeric" value="${b.oldPrice||''}" placeholder="ex. 790"></label>`:''}</div>
+          <div class="fld full" style="gap:10px"><label class="ch" for="fl-feat" style="padding:0;border:0;color:var(--ink);font-size:15px"><input class="switch" type="checkbox" id="fl-feat" data-flag="featured"${b.featured?' checked':''}><span class="grow"><span class="t">Mettre en avant</span><br><span class="m">Pastille sur la photo, et l'annonce passe en premier</span></span></label>
+            ${b.featured?`<label for="f-badge">Texte de la pastille<select id="f-badge" data-f="badge">${['Coup de cœur','Nouveauté','Prix en baisse','Dernière chance','Comme neuf'].map(o=>`<option${o===(b.badge||'Coup de cœur')?' selected':''}>${o}</option>`).join('')}</select></label>`:''}</div>
           <div class="fld full"><span id="st-l">Statut</span><div class="statusseg" role="group" aria-labelledby="st-l">${Object.entries(ST).map(([k,v])=>`<button type="button" data-status="${k}" aria-pressed="${b.status===k}">${v[0]}</button>`).join('')}</div></div>
           <label class="full" for="f-desc">Description et état<textarea id="f-desc" data-f="desc" placeholder="ex. Révisé, chaîne et plaquettes neuves, petite rayure sur le tube supérieur.">${esc(b.desc)}</textarea></label>
         </div>
@@ -449,7 +455,7 @@ function render(){
 }
 
 function startEdit(b){
-  S.edit=b?JSON.parse(JSON.stringify(b)):{id:0,name:'',type:'Ville',price:'',size:'',status:'online',img:'',desc:'',points:[],ch:['site','google','meta']};
+  S.edit=b?JSON.parse(JSON.stringify(b)):{id:0,name:'',type:'Ville',price:'',size:'',status:'online',img:'',desc:'',points:[],ch:['site','google','meta'],etat:'Occasion',promo:false,oldPrice:'',featured:false,badge:'Coup de cœur'};
   S.view='ads';S.zone=ZONES.find(z=>!S.edit.points.some(p=>p.z===z))||'Transmission';S.dirty=false;render();scrollTo({top:0});
 }
 function readFile(input,cb){const f=input.files&&input.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const m=1100,k=Math.min(1,m/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext('2d').drawImage(im,0,0,c.width,c.height);cb(c.toDataURL('image/jpeg',.8))};im.onerror=()=>cb(r.result);im.src=r.result};r.readAsDataURL(f)}
@@ -468,6 +474,7 @@ document.addEventListener('click',e=>{
   if(t.dataset.btab){S.bookTab=t.dataset.btab;return render()}
   const b=S.edit;
   if(t.dataset.zone){S.zone=t.dataset.zone;return render()}
+  if(t.dataset.etat){b.etat=t.dataset.etat;mark();$$('[data-etat]').forEach(x=>x.setAttribute('aria-pressed',String(x===t)));return}
   if(t.dataset.status){b.status=t.dataset.status;mark();$$('[data-status]').forEach(x=>x.setAttribute('aria-pressed',String(x===t)));return}
   if(t.dataset.rm){b.points=b.points.filter(p=>p.z!==t.dataset.rm);mark();return render()}
   if(t.id==='stage'&&b&&b.img){
@@ -497,10 +504,11 @@ document.addEventListener('click',e=>{
 document.addEventListener('input',e=>{
   const t=e.target;
   if(t.id==='q'){S.q=t.value;S._focusQ=true;return render()}
-  if(t.dataset.f&&S.edit){const k=t.dataset.f;S.edit[k]=k==='price'?(parseInt(t.value.replace(/\D/g,''),10)||''):t.value;mark();
+  if(t.dataset.f&&S.edit){const k=t.dataset.f;S.edit[k]=(k==='price'||k==='oldPrice')?(parseInt(t.value.replace(/\D/g,''),10)||''):t.value;mark();
     if(k==='name'){const tt=$('#appbar .ttl');if(tt)tt.textContent=t.value||'Nouvelle annonce'}}
 });
 document.addEventListener('change',e=>{
+  if(e.target.dataset.flag&&S.edit){S.edit[e.target.dataset.flag]=e.target.checked;if(e.target.dataset.flag==='featured'&&!S.edit.badge)S.edit.badge='Coup de cœur';mark();return render()}
   const t=e.target;
   if(t.id==='ph'&&S.edit)return readFile(t,src=>{S.edit.img=src;mark();render();toast('Photo ajoutée. Touchez maintenant la photo sur chaque pièce.')});
   if(t.dataset.cl&&S.edit)return readFile(t,()=>{const p=S.edit.points.find(p=>p.z===t.dataset.cl);if(p)p.cl=1;mark();render();toast('Gros plan « '+t.dataset.cl+' » ajouté.')});

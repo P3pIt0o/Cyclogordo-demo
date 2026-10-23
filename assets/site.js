@@ -41,14 +41,15 @@ const BIKES={
   const el=(t,cl,txt)=>{const e=document.createElement(t);if(cl)e.className=cl;if(txt!=null)e.textContent=txt;return e};
   const chf=n=>'CHF '+Number(n||0).toLocaleString('fr-CH').replace(/[\s  ’]/g,"'");
   const book=$('#f-svc')?'#contact':'rdv.html';
-  D.filter(b=>b.id>4&&b.status!=='sold').forEach(b=>grids.forEach(g=>{
+  D.filter(b=>b.id>4&&b.status!=='sold').sort((a,c)=>(a.featured?1:0)-(c.featured?1:0)).forEach(b=>grids.forEach(g=>{
     const key='new'+b.id, card=el('article','bike');
-    card.dataset.etat='Occasion';card.dataset.cat=CAT[b.type]||b.type;card.dataset.assist=b.type==='Électrique'?'Électrique':'Classique';card.dataset.prix=b.price||0;card.dataset.tailles='';
-    const meta=el('div','meta');meta.append(el('span','promo-t','Nouveau'));if(b.status==='res')meta.append(el('span','','Réservé'));meta.append(el('span','','Occasion'));if(b.size)meta.append(el('span','','Taille '+b.size));if(b.type)meta.append(el('span','',b.type));
-    const bd=el('div','bd');bd.append(el('h4','',b.name),meta,el('span','pr',chf(b.price)));
+    card.dataset.etat=b.etat||'Occasion';card.dataset.cat=CAT[b.type]||b.type;card.dataset.assist=b.type==='Électrique'?'Électrique':'Classique';card.dataset.prix=b.price||0;card.dataset.tailles='';
+    const meta=el('div','meta');if(b.promo)meta.append(el('span','promo-t','Promo'));if(!b.featured)meta.append(el('span','new-t','Nouveau'));if(b.status==='res')meta.append(el('span','','Réservé'));meta.append(el('span','',b.etat||'Occasion'));if(b.size)meta.append(el('span','','Taille '+b.size));if(b.type)meta.append(el('span','',b.type));
+    const pr=el('span','pr',chf(b.price));if(b.promo&&b.oldPrice>b.price){const o=el('s','',chf(b.oldPrice));o.setAttribute('aria-label','Ancien prix '+chf(b.oldPrice));pr.append(' ',o)}
+    const bd=el('div','bd');bd.append(el('h4','',b.name),meta,pr);
     if(b.img){
-      const ph=el('a','ph has');ph.href='#';ph.tabIndex=-1;ph.setAttribute('aria-hidden','true');const im=document.createElement('img');im.src=b.img;im.alt=b.name;ph.append(im);card.append(ph);
-    }else{card.append(el('div','ph soon','Photos à venir'))}
+      const ph=el('a','ph has');ph.href='#';ph.tabIndex=-1;ph.setAttribute('aria-hidden','true');const im=document.createElement('img');im.src=b.img;im.alt=b.name;ph.append(im);if(b.featured)ph.append(el('span','flag','★ '+(b.badge||'Coup de cœur')));card.append(ph);
+    }else{const ph=el('div','ph soon','Photos à venir');if(b.featured){ph.style.position='relative';ph.append(el('span','flag','★ '+(b.badge||'Coup de cœur')))}card.append(ph)}
     card.append(bd);
     if(b.img&&b.points&&b.points.length){
       card.dataset.card='fiche-'+key;card.querySelector('.ph').dataset.open='fiche-'+key;

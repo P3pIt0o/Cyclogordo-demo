@@ -382,6 +382,9 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
 @media (max-width:560px){.foot-grid{grid-template-columns:1fr}}
 .split>div{grid-column:9/span 4}
 .viewer.zoomed .v-img{cursor:zoom-out}
+.bike .flag{position:absolute;top:10px;left:10px;z-index:2;background:var(--yellow);color:var(--ink);font:700 12.5px var(--body);padding:6px 11px;border-radius:999px;box-shadow:0 4px 14px rgba(0,0,0,.35)}
+.bike .meta span.new-t{background:rgba(31,174,91,.2);color:#7ff0ad}
+.bike .pr s{color:var(--mute);font-size:13px;margin-left:6px}
 .hc{max-width:min(1040px,100%)}
 .hc h1,.hc h2{font-size:clamp(38px,min(8.6vw,10vh),124px)}
 @media (max-height:760px){.hc p{font-size:16px;margin-top:10px}.hc .row{margin-top:14px}.hc .eyebrow{margin-bottom:6px}}
