@@ -36,6 +36,8 @@ const BIKES={
   if(!Array.isArray(D)||!D.length) return;
   const grids=[$('#stockGrid'),$('#catalog')].filter(Boolean); if(!grids.length) return;
   const norm=t=>String(t||'').toLowerCase().replace(/[^a-z0-9]/g,'');
+  const DEF={1:'LOOK 920',2:'KONA Lisa HT',3:'Vélo de Ville',4:'Focus Mares Cyclo cross'};
+  Object.entries(DEF).forEach(([id,n])=>{if(!D.some(b=>String(b.id)===id))$$('.bike').forEach(c=>{const h=c.querySelector('h4');if(h&&norm(h.textContent)===norm(n))c.hidden=true})});
   D.filter(b=>b.status==='sold').forEach(b=>$$('.bike').forEach(c=>{const h=c.querySelector('h4');if(h&&norm(h.textContent)===norm(b.name))c.hidden=true}));
   const CAT={'Ville':'Vélo de ville','Électrique':'Vélo de ville','Gravel / cyclo-cross':'Gravel'};
   const el=(t,cl,txt)=>{const e=document.createElement(t);if(cl)e.className=cl;if(txt!=null)e.textContent=txt;return e};

@@ -419,6 +419,7 @@ function editor(){
     </div>
   </div>
   <div class="savebar"><span class="state">${S.dirty?'Modifications non enregistrées':'Tout est enregistré'}</span>
+    ${b.id?'<button class="btn danger" type="button" data-act="del">Supprimer</button>':''}
     ${b.id&&b.status!=='sold'?'<button class="btn" type="button" data-act="sold">Marquer vendu</button>':''}
     <button class="btn primary" type="button" data-act="save">${b.id?'Enregistrer':'Publier l\'annonce'}</button></div>`;
 }
@@ -491,6 +492,11 @@ document.addEventListener('click',e=>{
     if(b.id){bikes[bikes.findIndex(x=>x.id===b.id)]=b;toast('Enregistré. Mis à jour sur : '+autos.join(', ')+'.')}
     else{b.id=Date.now();bikes.unshift(b);toast('Publié sur : '+autos.join(', ')+'. Ouvrez « Voir le site » : l\'annonce est déjà en ligne.')}
     persist();S.edit=null;S.dirty=false;S.filter='all';return render();
+  }
+  if(a==='del'){
+    if(t.dataset.armed!=='1'){t.dataset.armed='1';t.textContent='Confirmer la suppression';t.style.background='var(--red)';t.style.color='#fff';t.style.borderColor='var(--red)';
+      setTimeout(()=>{if(t.isConnected){t.dataset.armed='';t.textContent='Supprimer';t.style.background='';t.style.color='';t.style.borderColor=''}},4000);return}
+    const i=bikes.findIndex(x=>x.id===b.id);if(i>-1)bikes.splice(i,1);persist();S.edit=null;S.dirty=false;render();return toast('Annonce supprimée. Elle n\'apparaît plus sur le site.');
   }
   if(a==='sold'){b.status='sold';bikes[bikes.findIndex(x=>x.id===b.id)]=b;persist();S.edit=null;S.dirty=false;render();return toast('Vendu ! Retiré automatiquement du site, de Google et de Facebook/Instagram. Pensez à Tutti, anibis et Marketplace.')}
   if(a==='copyPrep'){const L=[(b.name||'Vélo')+(b.size?' · taille '+b.size:'')+' · '+chf(b.price),'',b.desc||'[Description à compléter]','',b.points.length?'Pièces visibles en gros plan : '+b.points.map(p=>p.z.toLowerCase()).join(', ')+'.':null,'Vendu et révisé par l\'atelier CycloGordo, 5 rue Hoffmann, 1202 Genève. Essai possible au magasin.'].filter(l=>l!==null);
