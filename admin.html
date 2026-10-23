@@ -1,11 +1,4 @@
-<!doctype html>
-<html lang="fr">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
-</head>
-<body>
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style></head><body>
 <title>CycloGordo Espace magasin</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -304,6 +297,10 @@ const bikes=[
   {id:3,name:'Vélo de ville',type:'Ville',price:1259,size:'',status:'online',img:'',desc:'',points:[],ch:['site']},
   {id:4,name:'Focus Mares Cyclo-cross',type:'Gravel / cyclo-cross',price:1800,size:'',status:'online',img:'',desc:'',points:[],ch:['site']}
 ];
+/* Démo : les annonces sont gardées dans ce navigateur et lues par le site (même adresse). */
+const LS='cg_demo_v1';
+function persist(){try{localStorage.setItem(LS,JSON.stringify(bikes));return true}catch(e){toast('Photo trop lourde pour la démo : choisissez une image plus petite.');return false}}
+try{const saved=JSON.parse(localStorage.getItem(LS)||'null');if(Array.isArray(saved)&&saved.length)bikes.splice(0,bikes.length,...saved)}catch(e){}
 const bookings=[
   {id:1,day:'Jeudi 23 octobre',h:'09:30',who:'Sophie M.',bike:'Vélo de ville électrique',svc:'Révision complète',st:'wait'},
   {id:2,day:'Jeudi 23 octobre',h:'14:30',who:'Luca R.',bike:'Route carbone',svc:'Freins',st:'wait'},
@@ -337,7 +334,7 @@ function go(v){
   S._confirm=null;S.view=v;S.edit=null;S.dirty=false;render();scrollTo({top:0});
 }
 
-const banner=()=>S.banner?'<div class="banner"><span><b>Démonstration.</b> Les réservations et les chiffres sont des exemples.</span><button type="button" data-act="hideBanner" aria-label="Masquer ce message">'+ico('x',18)+'</button></div>':'';
+const banner=()=>S.banner?'<div class="banner"><span><b>Démonstration.</b> Les réservations et les chiffres sont des exemples.</span><button type="button" data-act="resetDemo" style="width:auto;padding:0 10px;font-size:13px;text-decoration:underline">Réinitialiser</button><button type="button" data-act="hideBanner" aria-label="Masquer ce message">'+ico('x',18)+'</button></div>':'';
 const pill=st=>'<span class="pill '+ST[st][1]+'">'+ST[st][0]+'</span>';
 
 /* ---------- Accueil ---------- */
@@ -455,7 +452,7 @@ function startEdit(b){
   S.edit=b?JSON.parse(JSON.stringify(b)):{id:0,name:'',type:'Ville',price:'',size:'',status:'online',img:'',desc:'',points:[],ch:['site','google','meta']};
   S.view='ads';S.zone=ZONES.find(z=>!S.edit.points.some(p=>p.z===z))||'Transmission';S.dirty=false;render();scrollTo({top:0});
 }
-function readFile(input,cb){const f=input.files&&input.files[0];if(!f)return;const r=new FileReader();r.onload=()=>cb(r.result);r.readAsDataURL(f)}
+function readFile(input,cb){const f=input.files&&input.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const m=1100,k=Math.min(1,m/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext('2d').drawImage(im,0,0,c.width,c.height);cb(c.toDataURL('image/jpeg',.8))};im.onerror=()=>cb(r.result);im.src=r.result};r.readAsDataURL(f)}
 function mark(){if(!S.dirty){S.dirty=true;const s=$('.savebar .state');if(s)s.textContent='Modifications non enregistrées'}}
 
 document.addEventListener('click',e=>{
@@ -465,6 +462,7 @@ document.addEventListener('click',e=>{
   if(a==='new')return startEdit(null);
   if(a==='back')return go('ads');
   if(a==='hideBanner'){S.banner=false;return render()}
+  if(a==='resetDemo'){try{localStorage.removeItem(LS)}catch(e){}return location.reload()}
   if(t.dataset.filter){S.filter=t.dataset.filter;return render()}
   if(t.dataset.edit)return startEdit(bikes.find(b=>b.id==t.dataset.edit));
   if(t.dataset.btab){S.bookTab=t.dataset.btab;return render()}
@@ -484,10 +482,10 @@ document.addEventListener('click',e=>{
     if(!b.price)return toast('Indiquez le prix.'),$('#f-price').focus();
     const autos=CH.filter(c=>c.mode==='auto'&&b.ch.includes(c.id)).map(c=>c.name);
     if(b.id){bikes[bikes.findIndex(x=>x.id===b.id)]=b;toast('Enregistré. Mis à jour sur : '+autos.join(', ')+'.')}
-    else{b.id=Date.now();bikes.unshift(b);toast('Publié sur : '+autos.join(', ')+'.')}
-    S.edit=null;S.dirty=false;S.filter='all';return render();
+    else{b.id=Date.now();bikes.unshift(b);toast('Publié sur : '+autos.join(', ')+'. Ouvrez « Voir le site » : l\'annonce est déjà en ligne.')}
+    persist();S.edit=null;S.dirty=false;S.filter='all';return render();
   }
-  if(a==='sold'){b.status='sold';bikes[bikes.findIndex(x=>x.id===b.id)]=b;S.edit=null;S.dirty=false;render();return toast('Vendu ! Retiré automatiquement du site, de Google et de Facebook/Instagram. Pensez à Tutti, anibis et Marketplace.')}
+  if(a==='sold'){b.status='sold';bikes[bikes.findIndex(x=>x.id===b.id)]=b;persist();S.edit=null;S.dirty=false;render();return toast('Vendu ! Retiré automatiquement du site, de Google et de Facebook/Instagram. Pensez à Tutti, anibis et Marketplace.')}
   if(a==='copyPrep'){const L=[(b.name||'Vélo')+(b.size?' · taille '+b.size:'')+' · '+chf(b.price),'',b.desc||'[Description à compléter]','',b.points.length?'Pièces visibles en gros plan : '+b.points.map(p=>p.z.toLowerCase()).join(', ')+'.':null,'Vendu et révisé par l\'atelier CycloGordo, 5 rue Hoffmann, 1202 Genève. Essai possible au magasin.'].filter(l=>l!==null);
     $('#copyText').value=L.join('\n');$('#copyZone').hidden=false;return}
   if(a==='copy'){const ta=$('#copyText');const fb=()=>{ta.focus();ta.select();toast('Texte sélectionné : copiez-le.')};
@@ -513,6 +511,4 @@ document.addEventListener('change',e=>{
 render();
 })();
 </script>
-
-</body>
-</html>
+</body></html>

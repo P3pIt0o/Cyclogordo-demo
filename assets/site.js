@@ -26,6 +26,45 @@ const BIKES={
     selle:{img:"img/look-saddle.webp",note:"Selle WTB Gobi sur tige de selle télescopique."}
   }
 };
+
+// Démo : annonces publiées depuis l'espace magasin (même navigateur, même adresse)
+(function(){
+  let D=[];try{D=JSON.parse(localStorage.getItem('cg_demo_v1')||'[]')}catch(e){}
+  if(!Array.isArray(D)||!D.length) return;
+  const grids=[$('#stockGrid'),$('#catalog')].filter(Boolean); if(!grids.length) return;
+  const norm=t=>String(t||'').toLowerCase().replace(/[^a-z0-9]/g,'');
+  D.filter(b=>b.status==='sold').forEach(b=>$$('.bike').forEach(c=>{const h=c.querySelector('h4');if(h&&norm(h.textContent)===norm(b.name))c.hidden=true}));
+  const CAT={'Ville':'Vélo de ville','Électrique':'Vélo de ville','Gravel / cyclo-cross':'Gravel'};
+  const el=(t,cl,txt)=>{const e=document.createElement(t);if(cl)e.className=cl;if(txt!=null)e.textContent=txt;return e};
+  const chf=n=>'CHF '+Number(n||0).toLocaleString('fr-CH').replace(/[\s  ’]/g,"'");
+  const book=$('#f-svc')?'#contact':'rdv.html';
+  D.filter(b=>b.id>4&&b.status!=='sold').forEach(b=>grids.forEach(g=>{
+    const key='new'+b.id, card=el('article','bike');
+    card.dataset.etat='Occasion';card.dataset.cat=CAT[b.type]||b.type;card.dataset.assist=b.type==='Électrique'?'Électrique':'Classique';card.dataset.prix=b.price||0;card.dataset.tailles='';
+    const meta=el('div','meta');meta.append(el('span','promo-t','Nouveau'));if(b.status==='res')meta.append(el('span','','Réservé'));meta.append(el('span','','Occasion'));if(b.size)meta.append(el('span','','Taille '+b.size));if(b.type)meta.append(el('span','',b.type));
+    const bd=el('div','bd');bd.append(el('h4','',b.name),meta,el('span','pr',chf(b.price)));
+    if(b.img){
+      const ph=el('a','ph has');ph.href='#';ph.tabIndex=-1;ph.setAttribute('aria-hidden','true');const im=document.createElement('img');im.src=b.img;im.alt=b.name;ph.append(im);card.append(ph);
+    }else{card.append(el('div','ph soon','Photos à venir'))}
+    card.append(bd);
+    if(b.img&&b.points&&b.points.length){
+      card.dataset.card='fiche-'+key;card.querySelector('.ph').dataset.open='fiche-'+key;
+      const more=el('button','more','Plus de détails');more.type='button';more.dataset.open='fiche-'+key;more.setAttribute('aria-expanded','false');bd.append(more);
+      const demo=el('div','demo sq');demo.id='fiche-'+key;demo.dataset.bike=key;demo.hidden=true;
+      const v=el('div','viewer sq');const vi=document.createElement('img');vi.className='v-img';vi.src=b.img;vi.alt=b.name;v.append(vi,el('span','tag','Annonce publiée depuis l\'espace magasin'));
+      const back=el('button','btn ghost back','Vue d\'ensemble');back.type='button';back.hidden=true;v.append(back);
+      BIKES[key]={};
+      b.points.forEach(p=>{const pin=el('button','pin');pin.type='button';pin.dataset.z=p.z;pin.style.left=p.x+'%';pin.style.top=p.y+'%';pin.setAttribute('aria-label','Voir : '+p.z);pin.setAttribute('aria-pressed','false');v.append(pin);BIKES[key][p.z]={x:p.x,y:p.y,s:2.8,note:p.z+' : vue rapprochée.'}});
+      const sh=el('div','sheet');const top=el('div','sheet-top');top.append(el('p','eyebrow','Occasion · nouveau'));const x=el('button','close','×');x.type='button';x.setAttribute('aria-label','Fermer la fiche');top.append(x);
+      const dl=document.createElement('dl');[['Type',b.type],['Taille',b.size||'—'],['Prix',chf(b.price)]].forEach(([k,val])=>{dl.append(el('dt','',k));const dd=el('dd',k==='Prix'?'pr-big':'',val);dl.append(dd)});
+      const zones=el('div','zones');zones.setAttribute('role','group');zones.setAttribute('aria-label','Zones à inspecter');b.points.forEach(p=>{const zb=el('button','',p.z);zb.type='button';zb.dataset.z=p.z;zb.setAttribute('aria-pressed','false');zones.append(zb)});
+      const cta=el('a','btn','Réserver un essai');cta.href=book;cta.dataset.svc="Essai d'un vélo d'occasion";
+      sh.append(top,el('h3','',b.name),dl);if(b.desc)sh.append(el('p','',b.desc));sh.append(zones,el('p','note','Touchez un point jaune pour voir une pièce de près.'),cta);
+      demo.append(v,sh);card.append(demo);
+    }
+    g.prepend(card);
+  }));
+})();
 const HINT='Touchez un point jaune pour voir une pièce de près.';
 $$('[data-bike]').forEach(root=>{
   const Z=BIKES[root.dataset.bike]; if(!Z) return;
