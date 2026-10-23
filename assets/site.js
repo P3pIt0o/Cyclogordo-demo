@@ -76,12 +76,13 @@ $$('[data-bike]').forEach(root=>{
     const d=k&&Z[k];
     if(d&&d.img){img.style.transform='scale(1)';setSrc(d.img,note.textContent)}
     else{setSrc(base.src,base.alt);if(d){img.style.transformOrigin=d.x+'% '+d.y+'%';img.style.transform='scale('+d.s+')'}else img.style.transform='scale(1)'}
-    note.textContent=d?d.note:HINT; back.hidden=!d;
+    note.textContent=d?d.note+' Touchez la photo pour revenir au vélo entier.':HINT; back.hidden=!d; img.closest('.viewer').classList.toggle('zoomed',!!d);
     pins.forEach(p=>{p.hidden=!!d}); zb.forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.z===k)));
   }
   pins.forEach(b=>b.addEventListener('click',()=>show(b.dataset.z)));
   zb.forEach(b=>b.addEventListener('click',()=>show(b.getAttribute('aria-pressed')==='true'?null:b.dataset.z)));
   back.addEventListener('click',()=>show(null));
+  img.addEventListener('click',()=>{if(!back.hidden)show(null)});
 });
 // Annonces : la carte se déplie sur place et se replie quand on la quitte
 function collapse(card){

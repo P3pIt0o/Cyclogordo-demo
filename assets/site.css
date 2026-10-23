@@ -381,6 +381,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
 @media (max-width:900px){.foot-grid{grid-template-columns:1fr 1fr}}
 @media (max-width:560px){.foot-grid{grid-template-columns:1fr}}
 .split>div{grid-column:9/span 4}
+.viewer.zoomed .v-img{cursor:zoom-out}
 .hc{max-width:min(1040px,100%)}
 .hc h1,.hc h2{font-size:clamp(38px,min(8.6vw,10vh),124px)}
 @media (max-height:760px){.hc p{font-size:16px;margin-top:10px}.hc .row{margin-top:14px}.hc .eyebrow{margin-bottom:6px}}
