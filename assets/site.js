@@ -1,6 +1,9 @@
 (function(){
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+// Démo : si une annonce est publiée dans l'admin (autre onglet ou retour arrière), la page se met à jour
+addEventListener('pageshow',e=>{if(e.persisted)location.reload()});
+addEventListener('storage',e=>{if(e.key==='cg_demo_v1')location.reload()});
 // En-tête : fond plein dès qu'on défile (sur l'accueil)
 const hdr=$('#hdr'); if(hdr&&!hdr.classList.contains('solid')){const t=()=>hdr.classList.toggle('solid',scrollY>40);addEventListener('scroll',t,{passive:true});t()}
 // Menu mobile
